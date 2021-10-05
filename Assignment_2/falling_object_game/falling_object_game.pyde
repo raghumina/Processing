@@ -28,13 +28,16 @@
 
 #
 gamestate = 1 # 1 - menu, 2 - play, 3 - end
+gamescore = 0
+gamelevel = 1
+gametime = 0
 
 # Screen Variables
-screenWidth = 800
+screenWidth = 1000
 screenHeight = 600
 
 # HUD variables
-hudOffsetX = 200
+hudOffsetX = 250
 hudOffsetY = 0
 
 
@@ -47,6 +50,7 @@ barWidth = 60    # ''  ''    ''    ''    ''     ''
 # Ball Variables
 ballRadius = 40
 ballFallSpeed = 4
+ballFallSpeedFactor = 1.5
 ballPosX = screenWidth/2
 ballStartingY = 50
 ballPosY =  ballStartingY
@@ -61,6 +65,11 @@ bombPosY = bombStartingY
 
 ballA_name = "BOMB"
 
+
+
+
+
+#life 
 
 def setup():
     global f
@@ -100,17 +109,27 @@ def drawHUD():
     global screenWidth, screenHeight
     global hudOffsetX, hudOffsetY
         
-    background(255)
+    background(143, 40, 40)
     
     fill(0, 0, 0)
     rect(screenWidth/2, screenHeight/2, screenWidth - hudOffsetX, screenHeight - hudOffsetY)
-    
+
+    # Ball A stastics 
     fill(0, 255, 0)
     textFont(f, 16)
-    text("High Score!",10,100)    
-    text(ballPosY, 10, 120)
+    text("Ball_A Statstics",5,50)    
+    text(ballPosY, 55, 50)
 
-    
+    text("Score: ",5, 70)    
+    text(gamescore, 55, 70)
+
+'''
+    # Ball B stastics 
+    fill(0, 255, 0)
+    textFont(f, 16)
+    text("Ball_B Statstics",0,100)    
+    text(ballPosY, 10, 120)
+ '''   
 #def drawBallA():
 # TEST
     
@@ -129,9 +148,9 @@ def draw():
         
     if gamestate == 1:
         drawMenu()
-    if gamestate == 2: 
+    elif gamestate == 2: 
         drawGame()
-    if gamestate == 3:
+    elif gamestate == 3:
         drawEnd() 
 
 def drawMenu():    
@@ -143,11 +162,7 @@ def drawMenu():
     fill(255, 0, 0)
     textFont(f, 16)
     text("Play!",screenWidth/2, screenHeight/2)    
-    if mousePressed and 
-        mouseX > (screenWidth/2 - 200/2) and 
-            mouseX < (screenWidth/2 + 200/2) and 
-                mouseY > (screenHeight/2 - 50/2) and 
-                    mouseY < (screenHeight/2 + 50/2):
+    if mousePressed and mouseX > (screenWidth/2 - 200/2) and mouseX < (screenWidth/2 + 200/2) and mouseY > (screenHeight/2 - 50/2) and mouseY < (screenHeight/2 + 50/2):
         gamestate = 2
         
 
@@ -155,28 +170,42 @@ def drawMenu():
 def drawGame():
     global ballPosY
     global barPosX, barPosY
+    global gamescore, gamelevel, ballFallSpeedFactor, ballFallSpeed, gamestate
     
     drawHUD()
     drawBar()    
     
     
-    ballPosY = ballPosY + ballFallSpeed
+    ballPosY = ballPosY + ballFallSpeed * ballFallSpeedFactor * gamelevel
+    
     # Collison Check ball with bar 
     if ballPosX > barPosX - barWidth/2 and ballPosX < barPosX + barWidth/2:
         if ballPosY > barPosY - barHeight/2 and ballPosY < barPosY + barHeight/2:
             # Increase score
+            gamescore = gamescore + 1
             randomizeBallPosition()
     
     # Ball falling of the screen 
-    if ballPosY > screenHeight + ballRadius:
+    if ballPosY > (screenHeight + ballRadius):
         # Apply -negative score
-        randomizeBallPosition()        
-            
+        randomizeBallPosition()
+        gamescore = gamescore - 5  
+        
+    if gamescore > 10:
+        gamelevel = 2
+    elif gamescore > 20: 
+        gamelevel = 3
+    elif gamescore > 30:
+        gamelevel = 4
+    elif gamescore < 0:
+        gamestate = 3 # stop the game
+        
     fill(0, 255, 255)
     circle(ballPosX, ballPosY, ballRadius)    
      
            
-
+def drawEnd():
+    pass
 
 
 
