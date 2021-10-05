@@ -26,9 +26,16 @@
 
 # Creating Variable for the game objets/ entities like ball, bar,screen size etc.
 
+#
+gamestate = 1 # 1 - menu, 2 - play, 3 - end
+
 # Screen Variables
 screenWidth = 800
 screenHeight = 600
+
+# HUD variables
+hudOffsetX = 200
+hudOffsetY = 0
 
 
 # Bar Variables 
@@ -52,18 +59,19 @@ bombPosX = screenWidth/2
 bombStartingY = 30
 bombPosY = bombStartingY
 
-
-
+ballA_name = "BOMB"
 
 
 def setup():
-    global f     
+    global f
+    global gamestate
     
     size(screenWidth, screenHeight)
     background(0)
     rectMode(CENTER)
     noStroke()
     f = createFont("Arial", 23)
+    gamestate = 1
     randomizeBallPosition()
 
 
@@ -72,10 +80,11 @@ def randomizeBallPosition():
     global ballPosX
     global ballPosY
     global ballStartingY
+    global hudOffsetX, hudOffsetY
     
-    x = int(random(700))
-    x_offset = 50
-    ballPosX = x + x_offset
+    x = int(random(screenWidth - hudOffsetX - (ballRadius * 2)))
+
+    ballPosX = x + (hudOffsetX / 2) + (ballRadius)
     ballPosY = ballStartingY
     # y = int(random(600))
     
@@ -89,14 +98,12 @@ def drawBar():
 def drawHUD():
     global f
     global screenWidth, screenHeight
+    global hudOffsetX, hudOffsetY
         
     background(255)
     
     fill(0, 0, 0)
-    hudOffsetX = 200
-    hudOffsetY = 0
     rect(screenWidth/2, screenHeight/2, screenWidth - hudOffsetX, screenHeight - hudOffsetY)
-    #rect(0 + hudOffsetX, 0 + hudOffsetY, screenWidth - hudOffsetX, screenHeight - hudOffsetY)
     
     fill(0, 255, 0)
     textFont(f, 16)
@@ -117,8 +124,35 @@ def randomizeBombPosition():
     bombPosX = x + x_offset
     bombPosY = bombSartingY    
     
-
+    
 def draw():
+        
+    if gamestate == 1:
+        drawMenu()
+    if gamestate == 2: 
+        drawGame()
+    if gamestate == 3:
+        drawEnd() 
+
+def drawMenu():    
+    global gamestate
+    # draw rect button to play game
+    background(0)
+    fill(0, 255, 0)
+    rect(screenWidth/2, screenHeight/2, 200, 50)
+    fill(255, 0, 0)
+    textFont(f, 16)
+    text("Play!",screenWidth/2, screenHeight/2)    
+    if mousePressed and 
+        mouseX > (screenWidth/2 - 200/2) and 
+            mouseX < (screenWidth/2 + 200/2) and 
+                mouseY > (screenHeight/2 - 50/2) and 
+                    mouseY < (screenHeight/2 + 50/2):
+        gamestate = 2
+        
+
+
+def drawGame():
     global ballPosY
     global barPosX, barPosY
     
