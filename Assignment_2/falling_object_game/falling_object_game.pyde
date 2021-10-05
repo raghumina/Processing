@@ -111,6 +111,9 @@ def drawHUD():
         
     background(143, 40, 40)
     
+
+    
+    
     fill(0, 0, 0)
     rect(screenWidth/2, screenHeight/2, screenWidth - hudOffsetX, screenHeight - hudOffsetY)
 
@@ -129,7 +132,8 @@ def drawHUD():
     textFont(f, 16)
     text("Ball_B Statstics",0,100)    
     text(ballPosY, 10, 120)
- '''   
+'''
+   
 #def drawBallA():
 # TEST
     
@@ -164,8 +168,6 @@ def drawMenu():
     text("Play!",screenWidth/2, screenHeight/2)    
     if mousePressed and mouseX > (screenWidth/2 - 200/2) and mouseX < (screenWidth/2 + 200/2) and mouseY > (screenHeight/2 - 50/2) and mouseY < (screenHeight/2 + 50/2):
         gamestate = 2
-        
-
 
 def drawGame():
     global ballPosY
@@ -202,11 +204,18 @@ def drawGame():
         
     fill(0, 255, 255)
     circle(ballPosX, ballPosY, ballRadius)    
-     
-           
-def drawEnd():
-    pass
+def gameOver():
+    if gamestate == 3:
+        print("Reached Game state 3")
+        fill(255)
+        textFont(f, 42)
+        text("Game Over ", screenWidth/2, screenHeight/2)    
 
+        
+def drawEnd():
+    gameOver()
+    
+    
 
 
 
