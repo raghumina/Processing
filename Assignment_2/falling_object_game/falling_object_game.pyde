@@ -23,9 +23,7 @@
 
 # Let's create 
 
-
-
-import processing.sound
+ #add_library("sound")
 
 
 # Creating Variable for the game objets/ entities like ball, bar,screen size etc.
@@ -35,7 +33,7 @@ import processing.sound
 
 
 # Game Variables 
-gamestate = 1       # 1 - menu, 2 - play, 3 - end
+gamestate = 1       # 1 state  = menue, 2nd = play, 3rd = end 
 gamescore = 0
 gamelevel = 1
 gametime = 0
@@ -52,12 +50,12 @@ hudOffsetY = 0
 barPosX = 0      # Variable for position of bar on X axis 
 barPosY = 450    # Varialbe for position of bar on Y axis
 barHeight = 20   # Varibale for the Size of the bar 
-barWidth = 60    # ''  ''    ''    ''    ''     '' 
+barWidth = 90    # ''  ''    ''    ''    ''     '' 
 
 # Ball Variables
 ballRadius = 40
 ballFallSpeed = 4
-ballFallSpeedFactor = 1.5
+ballFallSpeedFactor = 1.3
 ballPosX = screenWidth/2
 ballStartingY = 50
 ballPosY =  ballStartingY
@@ -75,8 +73,9 @@ ballA_name = "BOMB"
 
 
 def setup():
-    global f
-    global gamestate
+   # global sf          # for sound
+    global f           # for font
+    global gamestate   # for game state 
     
     size(screenWidth, screenHeight)
     background(0)
@@ -85,6 +84,7 @@ def setup():
     f = createFont("Arial", 23)
     gamestate = 1
     randomizeBallPosition()
+   # sf = SoundFile(this,"pop.wav")
 
 
 # Creating a random function to assign random positions to the ball on a specific height 
@@ -114,9 +114,6 @@ def drawHUD():
         
     background(143, 40, 40)
     
-
-    
-    
     fill(0, 0, 0)
     rect(screenWidth/2, screenHeight/2, screenWidth - hudOffsetX, screenHeight - hudOffsetY)
 
@@ -124,10 +121,11 @@ def drawHUD():
     fill(0, 255, 0)
     textFont(f, 16)
     text("Ball_A Statstics",5,50)    
-    text(ballPosY, 55, 50)
-
-    text("Score: ",5, 70)    
-    text(gamescore, 55, 70)
+    text(ballPosY, 55, 70)
+    
+    # Print the game score 
+    text("Score: ",5, 120)    
+    text(gamescore, 55, 120)
 
 '''
     # Ball B stastics 
@@ -135,7 +133,7 @@ def drawHUD():
     textFont(f, 16)
     text("Ball_B Statstics",0,100)    
     text(ballPosY, 10, 120)
-'''
+
    
 #def drawBallA():
 # TEST
@@ -149,7 +147,7 @@ def randomizeBombPosition():
     x_offset = 30
     bombPosX = x + x_offset
     bombPosY = bombSartingY    
-    
+    '''
     
 def draw():
         
@@ -171,6 +169,7 @@ def drawMenu():
     text("Play!",screenWidth/2, screenHeight/2)    
     if mousePressed and mouseX > (screenWidth/2 - 200/2) and mouseX < (screenWidth/2 + 200/2) and mouseY > (screenHeight/2 - 50/2) and mouseY < (screenHeight/2 + 50/2):
         gamestate = 2
+      #  sf.play
 
 def drawGame():
     global ballPosY
@@ -194,7 +193,7 @@ def drawGame():
     if ballPosY > (screenHeight + ballRadius):
         # Apply -negative score
         randomizeBallPosition()
-        gamescore = gamescore - 5  
+        gamescore = gamescore - 3  # hight negative score so that stakes are high for the player :)
         
     if gamescore > 10:
         gamelevel = 2
@@ -213,8 +212,8 @@ def gameOver():
     if gamestate == 3:
         print("Reached Game state 3")
         fill(255)
-        textFont(f, 42)
-        text("Game Over \n Start the program again \n \n \n  THIS GAME IS IN ITS DEVELOPMENT PHASE :) :)", screenWidth/2, screenHeight/2)    
+        textFont(f, 40)
+        text("Game Over \n Start the program again \n  THIS GAME IS IN \n ITS DEVELOPMENT \n PHASE \n:) :)", screenWidth/2, screenHeight/2)    
 # THE GAME IS STILL IN DEVELOPMET PHASE 
         
 def drawEnd():
