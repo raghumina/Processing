@@ -24,10 +24,18 @@
 # Let's create 
 
 
+
+import processing.sound
+
+
 # Creating Variable for the game objets/ entities like ball, bar,screen size etc.
 
-#
-gamestate = 1 # 1 - menu, 2 - play, 3 - end
+
+
+
+
+# Game Variables 
+gamestate = 1       # 1 - menu, 2 - play, 3 - end
 gamescore = 0
 gamelevel = 1
 gametime = 0
@@ -39,7 +47,6 @@ screenHeight = 600
 # HUD variables
 hudOffsetX = 250
 hudOffsetY = 0
-
 
 # Bar Variables 
 barPosX = 0      # Variable for position of bar on X axis 
@@ -55,7 +62,7 @@ ballPosX = screenWidth/2
 ballStartingY = 50
 ballPosY =  ballStartingY
 
-
+'''
 # Creating a bomb/asteroid variable to make game more fun 
 bombRadius = 60
 bombFallSpeed = 6
@@ -64,12 +71,8 @@ bombStartingY = 30
 bombPosY = bombStartingY
 
 ballA_name = "BOMB"
+'''
 
-
-
-
-
-#life 
 
 def setup():
     global f
@@ -203,19 +206,31 @@ def drawGame():
         gamestate = 3 # stop the game
         
     fill(0, 255, 255)
-    circle(ballPosX, ballPosY, ballRadius)    
+    circle(ballPosX, ballPosY, ballRadius)
+    
+            
 def gameOver():
     if gamestate == 3:
         print("Reached Game state 3")
         fill(255)
         textFont(f, 42)
-        text("Game Over ", screenWidth/2, screenHeight/2)    
-
+        text("Game Over \n Start the program again \n \n \n  THIS GAME IS IN ITS DEVELOPMENT PHASE :) :)", screenWidth/2, screenHeight/2)    
+# THE GAME IS STILL IN DEVELOPMET PHASE 
         
 def drawEnd():
     gameOver()
     
     
+
+# Features to add 
+# 1. sound 
+# 2. game levels
+# 3. Proper interactive HUD 
+# 4. more types of balls with different differnet properties 
+# 5. Storyline 
+# 6. Timer 
+# 7. Array to store high score and other statistical data like timer, scores, player names and game state 
+# 8. Adding partical effect
 
 
 
