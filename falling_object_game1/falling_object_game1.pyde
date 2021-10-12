@@ -60,12 +60,14 @@ barWidth = 90    # ''  ''    ''    ''    ''     ''
 # Ball Variables
 ballRadius = 40
 ballFallSpeedFactor = 1.3
-ballStartingY = 50
+ballsStartingY = 50
+#ballsStartingX = random(0, 1000)
 
 # Unique for each ball 
 ballsFallSpeed = [1, 2, 3, 4]
 ballsPosX = [120, 240, 360, 480]
 ballsPosY = [60, 60, 60, 60]
+ballsColor = [color(255,0, 120), color(180, 250, 220), color(220, 180, 50), color(20, 100, 220)]
 
 
 def setup():
@@ -88,13 +90,14 @@ def setup():
 def randomizeBallsPosition():
     global ballsPosX
     global ballsPosY
-    global ballStartingY 
+    global ballsStartingY, ballsStartingX
     global hudOffsetX, hudOffsetY
+    global ballsColor
     
     x = int(random(screenWidth - hudOffsetX - (ballRadius * 2)))
     #for i in range(ballsPosX):
         
-     #   ballsPosX[i] = 
+     # ballsPosX[i] = 
      #    ballsPosY[i] =  
     
 def drawBar():
@@ -107,16 +110,16 @@ def drawBar():
 def drawHUD():
     global f
     global screenWidth, screenHeight
-    global hudOffsetX, hudOffsetY
+ #   global hudOffsetX, hudOffsetY
         
-    background(143, 40, 40)
+    background(0)
     
-    fill(0, 0, 0)
-    rect(screenWidth/2, screenHeight/2, screenWidth - hudOffsetX, screenHeight - hudOffsetY)
+ #   fill(0, 0, 0)
+  #  rect(screenWidth/2, screenHeight/2, screenWidth - hudOffsetX, screenHeight - hudOffsetY)
 
     # Print the game score 
-    text("Score: ",5, 120)    
-    text(gamescore, 55, 120)
+    text("Score: ",5, 50)    
+    text(gamescore, 5, 70)
 
     
 def draw():
@@ -141,6 +144,7 @@ def drawMenu():
       #  sf.play
 
 def drawGame():
+    global ballsColor
     global ballsPosY
     global barPosX, barPosY
     global gamescore, gamelevel, ballFallSpeedFactor, ballsFallSpeed, gamestate
@@ -158,13 +162,15 @@ def drawGame():
                  ballsPosY[i] < barPosY + barHeight/2):
                 # Increase score
                 gamescore = gamescore + 1
-                ballsPosY[i] = ballStartingY
+                ballsPosY[i] = ballsStartingY
+                ballsPosX[i] = random(0, 1000)
     
         # Ball falling of the screen 
         if ballsPosY[i] > (screenHeight + ballRadius):
             # Apply -negative score
-            #randomizeBallPosition()
-            ballsPosY[i] = ballStartingY
+           # randomizeBallPosition()
+            ballsPosY[i] = ballsStartingY
+            ballsPosX[i] = random(0, 1000)
             # gamescore = gamescore - 1  # hight negative score so that stakes are high for the player :)
         
     if gamescore > 10:
@@ -176,7 +182,7 @@ def drawGame():
     elif gamescore < 0:
         gamestate = 3 # stop the game
         
-    fill(0, 255, 255)
+    fill(ballsColor[i])
     for i in range(len(ballsPosX)):
         circle(ballsPosX[i], ballsPosY[i], ballRadius)
     
@@ -186,7 +192,7 @@ def gameOver():
         print("Reached Game state 3")
         fill(255)
         textFont(f, 40)
-        text("Game Over \n Start the program again \n  THIS GAME IS IN \n ITS DEVELOPMENT \n PHASE \n:) :)", screenWidth/2, screenHeight/2)    
+      #  text("Game Over \n Start the program again \n  THIS GAME IS IN \n ITS DEVELOPMENT \n PHASE \n:) :)", screenWidth/2, screenHeight/2)    
 # THE GAME IS STILL IN DEVELOPMET PHASE 
         
 def drawEnd():
