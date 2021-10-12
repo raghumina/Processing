@@ -165,7 +165,7 @@ def drawGame():
             # Apply -negative score
             #randomizeBallPosition()
             ballsPosY[i] = ballStartingY
-            gamescore = gamescore - 1  # hight negative score so that stakes are high for the player :)
+            # gamescore = gamescore - 1  # hight negative score so that stakes are high for the player :)
         
     if gamescore > 10:
         gamelevel = 2
