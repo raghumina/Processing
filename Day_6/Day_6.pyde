@@ -49,6 +49,7 @@ def draw():
         NoteY.append(mouseY)
         noteSize.append(5)
         
+        
     for i in range(len(NoteX)):
         noteSize[i] += 1
         stroke(50, 50, 255)
