@@ -13,27 +13,37 @@
 
 # Lets Start 
 
+
+# Source: https://www.fesliyanstudios.com
+# Sound1 = Sound001.mp3  
+# Sound2 = Sound002.mp3
+# Sound3 = Sound003.mp3
+# Sound4 = Sound004.mp3
+# Sound5 = Sound004.mp3
+# Sound6 = Sound004.mp3
+
+
 add_library('sound') # This Library provides a simple way to work with audio. It can play, analyze and syntheisize sound.
 add_library('minim') #  An audio library that provides easy to use classes for playback, recording, analysis, and synthesis of sound
 
 isReleased = False
-NOTE_MAX_SIZE = 100
+NOTE_MAX_SIZE = 500
 noteX = []
 noteY = []
 noteSize = []
-attackTime = 0.001
-sustainTime = 0.008
-sustainLevel = 0.3
-releaseTime = 0.4
+attackTime = 1
+sustainTime = 5
+sustainLevel = 8
+releaseTime = 10
 
 def setup():
-    global file, osc, env
+    global file1, file2, file3, file4, file5, file6 osc, env
     background(0)
     size(800, 600)
     ellipseMode(CENTER)
     strokeWeight(5)
     
-    file = SoundFile(this, "sound1.wav")
+    file1 = SoundFile(this, "sound1.wav")
     osc = SqrOsc(this)
     env = Env(this)
     
