@@ -12,6 +12,20 @@
 #Extra Credit (1 point) - add more interesting controls than simply "press some key to play the sound"
 
 
+
+#### Note ####
+# This program may give runtime error or insufficient error to resolve that error please close or quit the ongoing programs
+# on your computer 
+# Also it may takes some time to run to please have patience while waiting for run
+# 
+# These problems are due to size of the audio files and little memory used by processing to process the code and run it.
+
+
+
+
+
+
+
 # This program is a audio visualizer program which plays and visualizes the given audio samples 
 # It visualizes the audio sample frequency which result in linear wave form on the canvas
 # To use this audio visualizer you have to run the program(Which may take some time as the program consist big audio files
@@ -21,11 +35,7 @@
 # and starts playing the sound. we have to press number keys on the keyboard "1", "2", "3", "4", "5", "6". for audio's samples 
 # to stop the playing audio we have to click same number key. then it will stop and we can move to another sound by clicking
 # another number key on the keyboard.
-
-
-                                                                        
-
-
+                                                        
 # Lets Start 
 
 # Source: https://www.fesliyanstudios.com
