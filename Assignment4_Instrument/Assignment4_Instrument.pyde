@@ -58,16 +58,19 @@ isSound6Playing = False
 
 def setup():
     global file1, file2, file3, file4, file5, file6, osc, env
-    global minim, player, kick
+    global minim, player, kick1, kick2
     background(0)
     size(screenWidth, screenHeight)
     ellipseMode(CENTER)
     strokeWeight(4)
     f = createFont("Arial", 30)
     
-  
     minim = Minim(this)
-    kick = minim.loadSample("Sound002.mp3")
+    kick1 = minim.loadSample("Sound001.mp3", 512)
+    
+  
+    
+    kick2 = minim.loadSample("Sound002.mp3", 512)
     
     file1 = SoundFile(this, "Sound001.mp3")
     file2 = SoundFile(this, "Sound002.mp3")
@@ -138,8 +141,13 @@ def draw():
     # because these are MONO files, we could have used the left or right buffers and got the same data
     # bufferSizeP = kick.bufferSize() - 1
     # print("bufferSizeP: " + bufferSizeP)
-    for i in xrange(kick.bufferSize()-1):
-        line(i, 100 - kick.left.get(i)*50, i+1, 100 - kick.left.get(i+1)*50)
+    if isSound1Playing:
+        for i in xrange(kick1.bufferSize()-1):
+            line(i, 100 - kick1.left.get(i)*50, i+1, 100 - kick1.left.get(i+1)*50)
+            
+    if isSound2Playing:
+        for i in xrange(kick2.bufferSize()-1):
+            line(i, 100 - kick2.left.get(i)*50, i+1, 100 - kick2.left.get(i+1)*50)        
     '''
     for  i in range(bands):
     # Smooth the FFT spectrum data by smoothing factor
@@ -152,14 +160,16 @@ def draw():
 
 def keyPressed():
     global isSound1Playing, isSound2Playing, isSound3Playing, isSound4Playing, isSound5Playing, isSound6Playing
-    global file1, file2, file3, file4, file5, file6, kick, minim
+    global file1, file2, file3, file4, file5, file6, kick1, kick2,minim
     
-    if key == 'k': 
-        kick.trigger()
+   # if key == 'k': 
+   #     kick.trigger()
     if key == '1': 
         isSound1Playing = not isSound1Playing
+        kick1.trigger()
     if key == '2': 
         isSound2Playing = not isSound2Playing
+        kick2.trigger()
     if key == '3': 
         isSound3Playing = not isSound3Playing
     if key == '4': 
@@ -171,42 +181,40 @@ def keyPressed():
     
     if isSound1Playing: 
         file1.play()
-        minim = Minim(this)
-        kick = minim.loadSample("Sound001.mp3")
-    
+       
     else:
         file1.stop() # stop the music.
         
     if isSound2Playing: 
         file2.play() 
-        kick = minim.loadSample("Sound002.mp3")
+  #      kick = minim.loadSample("Sound002.mp3")
     else:
         file2.stop()
 
            
     if isSound3Playing: 
         file3.play()
-        kick = minim.loadSample("Sound003.mp3")
+  #      kick = minim.loadSample("Sound003.mp3")
     else:
         file3.stop()
         
         
     if isSound4Playing: 
         file4.play() 
-        kick = minim.loadSample("Sound004.mp3")
+   #     kick = minim.loadSample("Sound004.mp3")
     else:
         file4.stop()
         
         
     if isSound5Playing: 
         file5.play() 
-        kick = minim.loadSample("Sound005.mp3")
+  #      kick = minim.loadSample("Sound005.mp3")
     else:
         file5.stop() 
         
     if isSound6Playing: 
         file6.play() 
-        kick = minim.loadSample("Sound006.mp3")
+   #     kick = minim.loadSample("Sound006.mp3")
     else:
         file6.stop() 
         
@@ -218,7 +226,8 @@ def keyPressed():
 
 def stop():
     # always close Minim audio classes when you are done with them
-    kick.close()
+    kick1.close()
+    kick2.close()
     minim.stop()   
     
     
