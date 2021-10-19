@@ -124,17 +124,20 @@ def keyPressed():
         file2.play()
 
  '''
+ 
+#
 def draw():
     background(100)
     stroke(255)
 
-    fill(255, 0, 0)
+   # fill(255, 0, 0)
     
     if isSound1Playing: 
         fill(0, 255, 0)  
     rect( 50, 500, 55, 55, 7)
     fill(255, 255, 255)
     
+ #   fill(255, 0, 0)
     if isSound2Playing: 
         fill(0, 255, 0)  
     rect(150, 500, 55, 55, 7)
@@ -145,10 +148,22 @@ def draw():
     rect(250, 500, 55, 55, 7)
     fill(255, 255, 255)
     
-    # 4,5,6
+    # 4
+    if isSound4Playing: 
+        fill(0, 255, 0)
     rect(350, 500, 55, 55, 7)
+    fill(255, 255, 255)
+    
+    if isSound5Playing: 
+        fill(0, 255, 0)
     rect(450, 500, 55, 55, 7)
+    fill(255, 255, 255)
+    
+    
+    if isSound6Playing: 
+        fill(0, 255, 0)
     rect(550, 500, 55, 55, 7)
+    fill(255, 255, 255)
 
     # use the mix buffer to draw the waveforms.
     # because these are MONO files, we could have used the left or right buffers and got the same data
@@ -179,34 +194,35 @@ def keyPressed():
     if isSound1Playing: 
         file1.play()
     else:
-        file1.Stop() # stop the music.
+        file1.stop() # stop the music.
         
     if isSound2Playing: 
         file2.play()  
     else:
-        file2.Stop()
+        file2.stop()
+
            
     if isSound3Playing: 
         file3.play() 
     else:
-        file3.Stop()
+        file3.stop()
         
         
     if isSound4Playing: 
         file4.play() 
     else:
-        file4.Stop()
+        file4.stop()
         
         
     if isSound5Playing: 
         file5.play() 
     else:
-        file5.Stop() 
+        file5.stop() 
         
     if isSound6Playing: 
         file6.play() 
     else:
-        file6.Stop() 
+        file6.stop() 
         
          
          
