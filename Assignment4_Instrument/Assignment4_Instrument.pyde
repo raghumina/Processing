@@ -19,8 +19,8 @@
 # Sound2 = Sound002.mp3
 # Sound3 = Sound003.mp3
 # Sound4 = Sound004.mp3
-# Sound5 = Sound004.mp3
-# Sound6 = Sound004.mp3
+# Sound5 = Sound005.mp3
+# Sound6 = Sound006.mp3
 
 
 add_library('sound') # This Library provides a simple way to work with audio. It can play, analyze and syntheisize sound.
@@ -43,11 +43,23 @@ def setup():
     ellipseMode(CENTER)
     strokeWeight(5)
     
-    file1 = SoundFile(this, "sound1.wav")
+    file1 = SoundFile(this, "Sound001.mp3")
+    file2 = SoundFile(this, "Sound002.mp3")
+    file3 = SoundFile(this, "Sound003.mp3")
+    file4 = SoundFile(this, "Sound004.mp3")
+    file5 = SoundFile(this, "Sound005.mp3")
+    file6 = SoundFile(this, "Sound006.mp3")
     osc = SqrOsc(this)
+    
+    
     env = Env(this)
     
     file.play()
+    
+# New Function HuD for the buttones and slide bar to control audio.    
+    
+    
+
     
 def draw():
     global isReleased
