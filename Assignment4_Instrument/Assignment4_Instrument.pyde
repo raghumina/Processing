@@ -35,7 +35,7 @@ attackTime = 1
 sustainTime = 5
 sustainLevel = 8
 releaseTime = 10
-
+bands = 256
 
 hudOffsetX = 0 
 hudOffsetY = 200
@@ -65,9 +65,9 @@ def setup():
     strokeWeight(4)
     f = createFont("Arial", 30)
     
+  
     minim = Minim(this)
-    kick = minim.loadSample("Sound001.mp3")
-    
+    kick = minim.loadSample("Sound002.mp3")
     
     file1 = SoundFile(this, "Sound001.mp3")
     file2 = SoundFile(this, "Sound002.mp3")
@@ -75,13 +75,18 @@ def setup():
     file4 = SoundFile(this, "Sound004.mp3")
     file5 = SoundFile(this, "Sound005.mp3")
     file6 = SoundFile(this, "Sound006.mp3")
-    osc = SqrOsc(this)    
+  #  osc = SqrOsc(this)    
     
+    '''
+#Create the FFT analyzer and connect the playing soundfile to it.
+    fft =  FFT(this, bands)
+    fft.input(file1)
+    file.play
     #env = Env(this)
     
     #file2.play()
     #file3.play()
-    
+    '''
 # New Function HuD for the buttones and slide bar to control audio.    
 
 def drawHuD():
@@ -94,7 +99,7 @@ def drawHuD():
 def draw():
     background(100)
     stroke(255)
-
+   # fft.analyze()
    # fill(255, 0, 0)
     
     if isSound1Playing: 
@@ -129,17 +134,25 @@ def draw():
         fill(0, 255, 0)
     rect(550, 500, 55, 55, 7)
     fill(255, 255, 255)
-
     # use the mix buffer to draw the waveforms.
     # because these are MONO files, we could have used the left or right buffers and got the same data
     # bufferSizeP = kick.bufferSize() - 1
     # print("bufferSizeP: " + bufferSizeP)
     for i in xrange(kick.bufferSize()-1):
-        line(i, 250 - kick.left.get(i)*50, i+1, 250 - kick.left.get(i+1)*50)
+        line(i, 100 - kick.left.get(i)*50, i+1, 100 - kick.left.get(i+1)*50)
+    '''
+    for  i in range(bands):
+    # Smooth the FFT spectrum data by smoothing factor
+        sum[i] += (fft.spectrum[i] - sum[i]) * smoothingFactor
+
+   #  Draw the rectangles, adjust their height using the scale factor
+        rect(i*barWidth, height, barWidth, -sum[i]*height*scale)
+'''
+
 
 def keyPressed():
     global isSound1Playing, isSound2Playing, isSound3Playing, isSound4Playing, isSound5Playing, isSound6Playing
-    global file1, file2, file3, file4, file5, file6 
+    global file1, file2, file3, file4, file5, file6, kick, minim
     
     if key == 'k': 
         kick.trigger()
@@ -158,34 +171,42 @@ def keyPressed():
     
     if isSound1Playing: 
         file1.play()
+        minim = Minim(this)
+        kick = minim.loadSample("Sound001.mp3")
+    
     else:
         file1.stop() # stop the music.
         
     if isSound2Playing: 
-        file2.play()  
+        file2.play() 
+        kick = minim.loadSample("Sound002.mp3")
     else:
         file2.stop()
 
            
     if isSound3Playing: 
-        file3.play() 
+        file3.play()
+        kick = minim.loadSample("Sound003.mp3")
     else:
         file3.stop()
         
         
     if isSound4Playing: 
         file4.play() 
+        kick = minim.loadSample("Sound004.mp3")
     else:
         file4.stop()
         
         
     if isSound5Playing: 
         file5.play() 
+        kick = minim.loadSample("Sound005.mp3")
     else:
         file5.stop() 
         
     if isSound6Playing: 
         file6.play() 
+        kick = minim.loadSample("Sound006.mp3")
     else:
         file6.stop() 
         
