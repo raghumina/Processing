@@ -44,7 +44,15 @@ screenWidth = 800
 screenHeight = 600
 
 
-booleanb = True 
+isSound1Playing = False
+isSound2Playing = False
+isSound3Playing = False
+isSound4Playing = False
+isSound5Playing = False
+isSound6Playing = False
+
+
+#booleanb = True 
 
 
 
@@ -61,19 +69,18 @@ def setup():
     kick = minim.loadSample("Sound001.mp3")
     
     
-   # file1 = SoundFile(this, "Sound001.mp3")
+    file1 = SoundFile(this, "Sound001.mp3")
     file2 = SoundFile(this, "Sound002.mp3")
     file3 = SoundFile(this, "Sound003.mp3")
     file4 = SoundFile(this, "Sound004.mp3")
     file5 = SoundFile(this, "Sound005.mp3")
     file6 = SoundFile(this, "Sound006.mp3")
-    osc = SqrOsc(this)
+    osc = SqrOsc(this)    
     
+    #env = Env(this)
     
-    env = Env(this)
-    
-    file2.play()
-    file3.play()
+    #file2.play()
+    #file3.play()
     
 # New Function HuD for the buttones and slide bar to control audio.    
 
@@ -121,22 +128,91 @@ def draw():
     background(100)
     stroke(255)
 
+    fill(255, 0, 0)
     
+    if isSound1Playing: 
+        fill(0, 255, 0)  
+    rect( 50, 500, 55, 55, 7)
+    fill(255, 255, 255)
     
-    rect(50, 500, 55, 55, 7)
+    if isSound2Playing: 
+        fill(0, 255, 0)  
     rect(150, 500, 55, 55, 7)
+    fill(255, 255, 255)
+    
+    if isSound3Playing: 
+        fill(0, 255, 0)  
     rect(250, 500, 55, 55, 7)
+    fill(255, 255, 255)
+    
+    # 4,5,6
     rect(350, 500, 55, 55, 7)
     rect(450, 500, 55, 55, 7)
     rect(550, 500, 55, 55, 7)
 
     # use the mix buffer to draw the waveforms.
     # because these are MONO files, we could have used the left or right buffers and got the same data
+    # bufferSizeP = kick.bufferSize() - 1
+    # print("bufferSizeP: " + bufferSizeP)
     for i in xrange(kick.bufferSize()-1):
         line(i, 250 - kick.left.get(i)*50, i+1, 250 - kick.left.get(i+1)*50)
 
 def keyPressed():
-    if key == 'k': kick.trigger()
+    global isSound1Playing, isSound2Playing, isSound3Playing, isSound4Playing, isSound5Playing, isSound6Playing
+    global file1, file2, file3, file4, file5, file6 
+    
+    if key == 'k': 
+        kick.trigger()
+    if key == '1': 
+        isSound1Playing = not isSound1Playing
+    if key == '2': 
+        isSound2Playing = not isSound2Playing
+    if key == '3': 
+        isSound3Playing = not isSound3Playing
+    if key == '4': 
+        isSound4Playing = not isSound4Playing
+    if key == '5': 
+        isSound5Playing = not isSound5Playing
+    if key == '6': 
+        isSound6Playing = not isSound6Playing
+    
+    if isSound1Playing: 
+        file1.play()
+    else:
+        file1.Stop() # stop the music.
+        
+    if isSound2Playing: 
+        file2.play()  
+    else:
+        file2.Stop()
+           
+    if isSound3Playing: 
+        file3.play() 
+    else:
+        file3.Stop()
+        
+        
+    if isSound4Playing: 
+        file4.play() 
+    else:
+        file4.Stop()
+        
+        
+    if isSound5Playing: 
+        file5.play() 
+    else:
+        file5.Stop() 
+        
+    if isSound6Playing: 
+        file6.play() 
+    else:
+        file6.Stop() 
+        
+         
+         
+        
+
+    
 
 def stop():
     # always close Minim audio classes when you are done with them

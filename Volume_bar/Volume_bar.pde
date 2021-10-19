@@ -18,7 +18,7 @@ void setup () {
  
   //MUSIC | Add mp3 to file and change name of "Murph.mp3" to your song name
   minim = new Minim(this);
-  mySound = minim.loadFile("Murph.mp3");    
+  mySound = minim.loadFile("Sound001.mp3");    
   mySound.play();
 }
  
