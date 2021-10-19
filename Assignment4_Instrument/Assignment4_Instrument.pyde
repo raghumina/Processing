@@ -26,21 +26,7 @@
 add_library('sound') # This Library provides a simple way to work with audio. It can play, analyze and syntheisize sound.
 add_library('minim') #  An audio library that provides easy to use classes for playback, recording, analysis, and synthesis of sound
 
-isReleased = False
-NOTE_MAX_SIZE = 500
-noteX = []
-noteY = []
-noteSize = []
-attackTime = 1
-sustainTime = 5
-sustainLevel = 8
-releaseTime = 10
-bands = 256
-
-hudOffsetX = 0 
-hudOffsetY = 200
-
-screenWidth = 800
+screenWidth = 650
 screenHeight = 600
 
 
@@ -52,25 +38,23 @@ isSound5Playing = False
 isSound6Playing = False
 
 
-#booleanb = True 
-
-
 
 def setup():
-    global file1, file2, file3, file4, file5, file6, osc, env
-    global minim, player, kick1, kick2
+    global file1, file2, file3, file4, file5, file6, f
+    global minim, player, kick1, kick2, kick3, kick4, kick5, kick6
     background(0)
     size(screenWidth, screenHeight)
     ellipseMode(CENTER)
     strokeWeight(4)
     f = createFont("Arial", 30)
-    
+
     minim = Minim(this)
-    kick1 = minim.loadSample("Sound001.mp3", 512)
-    
-  
-    
-    kick2 = minim.loadSample("Sound002.mp3", 512)
+    kick1 = minim.loadSample("Sound001.mp3", 650)
+    kick2 = minim.loadSample("Sound002.mp3", 650)
+    kick3 = minim.loadSample("Sound003.mp3", 650)
+    kick4 = minim.loadSample("Sound004.mp3", 650)
+    kick5 = minim.loadSample("Sound005.mp3", 650)
+    kick6 = minim.loadSample("Sound006.mp3", 650)
     
     file1 = SoundFile(this, "Sound001.mp3")
     file2 = SoundFile(this, "Sound002.mp3")
@@ -78,33 +62,19 @@ def setup():
     file4 = SoundFile(this, "Sound004.mp3")
     file5 = SoundFile(this, "Sound005.mp3")
     file6 = SoundFile(this, "Sound006.mp3")
-  #  osc = SqrOsc(this)    
-    
-    '''
-#Create the FFT analyzer and connect the playing soundfile to it.
-    fft =  FFT(this, bands)
-    fft.input(file1)
-    file.play
-    #env = Env(this)
-    
-    #file2.play()
-    #file3.play()
-    '''
-# New Function HuD for the buttones and slide bar to control audio.    
+   
 
-def drawHuD():
-    global screenWidth, screenHeight
-    global hudOffsetX, hudoffsetY, f
-    
-    
- 
 #
 def draw():
-    background(100)
-    stroke(255)
-   # fft.analyze()
-   # fill(255, 0, 0)
+    global f
+    background(0)
     
+    textFont(f,16)            
+    fill(255)                       
+    text("Audio Visualizer",screenWidth/2,screenHeight/2)
+    
+    stroke(255, 0, 0)
+
     if isSound1Playing: 
         fill(0, 255, 0)  
     rect( 50, 500, 55, 55, 7)
@@ -137,6 +107,8 @@ def draw():
         fill(0, 255, 0)
     rect(550, 500, 55, 55, 7)
     fill(255, 255, 255)
+    
+    
     # use the mix buffer to draw the waveforms.
     # because these are MONO files, we could have used the left or right buffers and got the same data
     # bufferSizeP = kick.bufferSize() - 1
@@ -148,87 +120,101 @@ def draw():
     if isSound2Playing:
         for i in xrange(kick2.bufferSize()-1):
             line(i, 100 - kick2.left.get(i)*50, i+1, 100 - kick2.left.get(i+1)*50)        
-    '''
-    for  i in range(bands):
-    # Smooth the FFT spectrum data by smoothing factor
-        sum[i] += (fft.spectrum[i] - sum[i]) * smoothingFactor
 
-   #  Draw the rectangles, adjust their height using the scale factor
-        rect(i*barWidth, height, barWidth, -sum[i]*height*scale)
-'''
+    if isSound3Playing:
+        for i in xrange(kick3.bufferSize()-1):
+            line(i, 100 - kick3.left.get(i)*50, i+1, 100 - kick3.left.get(i+1)*50) 
+            
+    if isSound4Playing:
+        for i in xrange(kick4.bufferSize()-1):
+            line(i, 100 - kick4.left.get(i)*50, i+1, 100 - kick4.left.get(i+1)*50) 
+            
+    if isSound5Playing:
+        for i in xrange(kick5.bufferSize()-1):
+            line(i, 100 - kick5.left.get(i)*50, i+1, 100 - kick5.left.get(i+1)*50) 
+            
+    if isSound6Playing:
+        for i in xrange(kick6.bufferSize()-1):
+            line(i, 100 - kick6.left.get(i)*50, i+1, 100 - kick6.left.get(i+1)*50) 
+            
 
 
 def keyPressed():
     global isSound1Playing, isSound2Playing, isSound3Playing, isSound4Playing, isSound5Playing, isSound6Playing
-    global file1, file2, file3, file4, file5, file6, kick1, kick2,minim
+    global minim, file1, file2, file3, file4, file5, file6, kick1, kick2, kick3, kick4, kick5, kick6 
     
    # if key == 'k': 
    #     kick.trigger()
     if key == '1': 
         isSound1Playing = not isSound1Playing
-        kick1.trigger()
+        stop()
+     #   kick1.trigger()
     if key == '2': 
         isSound2Playing = not isSound2Playing
-        kick2.trigger()
+        stop()
+     #   kick2.trigger()
     if key == '3': 
         isSound3Playing = not isSound3Playing
+        stop()
     if key == '4': 
         isSound4Playing = not isSound4Playing
+        stop()
     if key == '5': 
         isSound5Playing = not isSound5Playing
+        stop()
     if key == '6': 
         isSound6Playing = not isSound6Playing
+        stop()
     
     if isSound1Playing: 
-        file1.play()
-       
+        file1.play()    
+        kick1.trigger()
     else:
         file1.stop() # stop the music.
         
     if isSound2Playing: 
         file2.play() 
-  #      kick = minim.loadSample("Sound002.mp3")
+        kick2.trigger()
     else:
         file2.stop()
 
            
     if isSound3Playing: 
         file3.play()
-  #      kick = minim.loadSample("Sound003.mp3")
+        kick3.trigger()
     else:
         file3.stop()
         
         
     if isSound4Playing: 
         file4.play() 
-   #     kick = minim.loadSample("Sound004.mp3")
+        kick4.trigger()
     else:
         file4.stop()
         
         
     if isSound5Playing: 
         file5.play() 
-  #      kick = minim.loadSample("Sound005.mp3")
+        kick5.trigger()
     else:
         file5.stop() 
         
     if isSound6Playing: 
-        file6.play() 
-   #     kick = minim.loadSample("Sound006.mp3")
+        file6.play()
+        kick6.trigger() 
     else:
         file6.stop() 
         
-         
-         
-        
-
-    
 
 def stop():
     # always close Minim audio classes when you are done with them
-    kick1.close()
-    kick2.close()
-    minim.stop()   
+    kick1.stop()
+    kick2.stop()
+    kick3.stop()
+    kick4.stop()
+    kick5.stop()
+    kick6.stop()
+   # minim.stop()   
     
     
     
