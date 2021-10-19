@@ -36,14 +36,32 @@ sustainTime = 5
 sustainLevel = 8
 releaseTime = 10
 
+
+hudOffsetX = 0 
+hudOffsetY = 200
+
+screenWidth = 800
+screenHeight = 600
+
+
+booleanb = True 
+
+
+
 def setup():
-    global file1, file2, file3, file4, file5, file6 osc, env
+    global file1, file2, file3, file4, file5, file6, osc, env
+    global minim, player, kick
     background(0)
-    size(800, 600)
+    size(screenWidth, screenHeight)
     ellipseMode(CENTER)
-    strokeWeight(5)
+    strokeWeight(4)
+    f = createFont("Arial", 30)
     
-    file1 = SoundFile(this, "Sound001.mp3")
+    minim = Minim(this)
+    kick = minim.loadSample("Sound001.mp3")
+    
+    
+   # file1 = SoundFile(this, "Sound001.mp3")
     file2 = SoundFile(this, "Sound002.mp3")
     file3 = SoundFile(this, "Sound003.mp3")
     file4 = SoundFile(this, "Sound004.mp3")
@@ -54,11 +72,17 @@ def setup():
     
     env = Env(this)
     
-    file.play()
+    file2.play()
+    file3.play()
     
 # New Function HuD for the buttones and slide bar to control audio.    
+
+def drawHuD():
+    global screenWidth, screenHeight
+    global hudOffsetX, hudoffsetY, f
     
     
+''' 
 
     
 def draw():
@@ -67,7 +91,7 @@ def draw():
     fill(0,0,0,0)
     
     if mousePressed:
-        stroke(50)
+        stroke(0, 0, 255)
         circle(mouseX, mouseY, 40)
         isReleased = True
         
@@ -90,9 +114,34 @@ def draw():
         
 def keyPressed():
     if key =="w" or key == "W":
-        file.play()
+        file2.play()
+
+ '''
+def draw():
+    background(100)
+    stroke(255)
+
     
     
+    rect(50, 500, 55, 55, 7)
+    rect(150, 500, 55, 55, 7)
+    rect(250, 500, 55, 55, 7)
+    rect(350, 500, 55, 55, 7)
+    rect(450, 500, 55, 55, 7)
+    rect(550, 500, 55, 55, 7)
+
+    # use the mix buffer to draw the waveforms.
+    # because these are MONO files, we could have used the left or right buffers and got the same data
+    for i in xrange(kick.bufferSize()-1):
+        line(i, 250 - kick.left.get(i)*50, i+1, 250 - kick.left.get(i+1)*50)
+
+def keyPressed():
+    if key == 'k': kick.trigger()
+
+def stop():
+    # always close Minim audio classes when you are done with them
+    kick.close()
+    minim.stop()   
     
     
     
