@@ -11,8 +11,22 @@
 #Extra Credit (1 point) - use more than 5 sounds
 #Extra Credit (1 point) - add more interesting controls than simply "press some key to play the sound"
 
-# Lets Start 
 
+# This program is a audio visualizer program which plays and visualizes the given audio samples 
+# It visualizes the audio sample frequency which result in linear wave form on the canvas
+# To use this audio visualizer you have to run the program(Which may take some time as the program consist big audio files
+#  -and processing need more time and memory to process and run them).
+# Once the canvas get opend it show 6 buttons on footer of the canvas.
+# Each button is assigned to a specific audio file. when pressed on that button the button changes the color to green and 
+# and starts playing the sound. we have to press number keys on the keyboard "1", "2", "3", "4", "5", "6". for audio's samples 
+# to stop the playing audio we have to click same number key. then it will stop and we can move to another sound by clicking
+# another number key on the keyboard.
+
+
+                                                                        
+
+
+# Lets Start 
 
 # Source: https://www.fesliyanstudios.com
 # Sound1 = Sound001.mp3  
@@ -22,9 +36,10 @@
 # Sound5 = Sound005.mp3
 # Sound6 = Sound006.mp3
 
-
 add_library('sound') # This Library provides a simple way to work with audio. It can play, analyze and syntheisize sound.
 add_library('minim') #  An audio library that provides easy to use classes for playback, recording, analysis, and synthesis of sound
+
+# I Didn't used sound library in this program
 
 screenWidth = 650
 screenHeight = 600
@@ -48,6 +63,8 @@ def setup():
     strokeWeight(4)
     f = createFont("Arial", 30)
 
+
+    # 
     minim = Minim(this)
     kick1 = minim.loadSample("Sound001.mp3", 650)
     kick2 = minim.loadSample("Sound002.mp3", 650)
@@ -74,7 +91,9 @@ def draw():
     text("Audio Visualizer",screenWidth/2,screenHeight/2)
     
     stroke(255, 0, 0)
-
+    
+    # This conditional statements are for the button color when inactive they will appear white.
+    #when active they will appear green 
     if isSound1Playing: 
         fill(0, 255, 0)  
     rect( 50, 500, 55, 55, 7)
@@ -138,7 +157,8 @@ def draw():
             line(i, 100 - kick6.left.get(i)*50, i+1, 100 - kick6.left.get(i+1)*50) 
             
 
-
+# This function allows user to give the input to the computer that Hey I want to play this sound001 and and I want to stop it 
+# It takes both play and stop input from the user and gives output according to it.
 def keyPressed():
     global isSound1Playing, isSound2Playing, isSound3Playing, isSound4Playing, isSound5Playing, isSound6Playing
     global minim, file1, file2, file3, file4, file5, file6, kick1, kick2, kick3, kick4, kick5, kick6 
@@ -205,7 +225,8 @@ def keyPressed():
     else:
         file6.stop() 
         
-
+# This function works when we again press same number key to stop the playing audio file 
+# It activates the stop keyword to stop the ongonig process
 def stop():
     # always close Minim audio classes when you are done with them
     kick1.stop()
