@@ -5,8 +5,7 @@
 boxPos = []
 boxColor = []
 Max_Size = 100
-
-
+boxSize = []
 
 def setup():
     size(640, 480)
@@ -18,12 +17,29 @@ def setup():
     
     
 def draw():
-    background(250)
+    background(255)
     
+    
+    if boxSize[i] > Max_Size:
+        boxPos.pop()
+        boxSize.pop()
+        boxColor.pop()
     for i in range(len(boxPos)):
+        boxSize[i] += 0.5
+        
+        fill(boxColor[i], 255 * (Max_Size - boxSize[i]) / Max_Size)
+        square(boxPos[i].x, boxPos[i].y, boxSize[i])
+        
+     #   if boxSize[i] > Max_Size:
+      ##     boxSize.pop(i)
+        #    boxColor.pop(i)
+
+    
+    fill(0)
+    text("Boxes: " + str(len(boxPos)), 20, 30)
         
 def mousePressed():
     boxPos.append(PVector(mouseX, mouseY))
     boxSize.append(4)
-    boxColor.append(color())
+    boxColor.append(color(random(100, 255), random(120, 255), random(100, 255)))
         
