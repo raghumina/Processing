@@ -20,19 +20,17 @@ def draw():
     background(255)
     
     
-    if boxSize[i] > Max_Size:
-        boxPos.pop()
-        boxSize.pop()
-        boxColor.pop()
+
     for i in range(len(boxPos)):
         boxSize[i] += 0.5
         
         fill(boxColor[i], 255 * (Max_Size - boxSize[i]) / Max_Size)
         square(boxPos[i].x, boxPos[i].y, boxSize[i])
         
-     #   if boxSize[i] > Max_Size:
-      ##     boxSize.pop(i)
-        #    boxColor.pop(i)
+    if boxSize[i] > Max_Size:
+        boxPos.pop(i)
+        boxSize.pop(i)
+        boxColor.pop(i)
 
     
     fill(0)
