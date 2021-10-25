@@ -1,0 +1,32 @@
+List of Bugs That I have to remove 
+
+There are 4 bugs to find and fix.  Feel free to add comments to the code to help you piece together how the code works.
+
+There are no syntax errors.
+
+The following QA reports will inform you what appears to be going wrong (don't worry about the bug numbers, that's just for flavor).
+
+ 
+
+BUG #906 -  Balls can leave the screen
+
+Description: Balls will bounce against the top, bottom, and right walls, but not the left side of the screen.  They should bounce against all sides of the game window.
+
+ 
+
+BUG #1075 - Balls don't fully disappear
+
+Description: The balls won't fully disappear and will instead stay on screen at a small size.  They should disappear eventually.
+
+ 
+
+BUG #204 - Balls rendering incorrectly
+
+Description: Balls have a black outline and a random color in the middle.  They should have a random outline color and no middle coloring.
+
+ 
+
+BUG #205 - The wand and ball counter text are the wrong color
+
+Description: The wand is constantly black and ball counter text color keeps changing.  They should both be white.
+
