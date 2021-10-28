@@ -71,8 +71,8 @@ def UpdateBalls():
         if ballSize[i] > 0:
             if ballSize[i] > INITIAL_BALL_SIZE/4:
                 ballSize[i] += BALL_SIZE_DECAY
-            else:
-                ballSize[i] -= BALL_SIZE_DECAY * 10
+           # else:
+            #    ballSize[i] -= BALL_SIZE_DECAY * 10
             
             fill(ballColor[i], 255 * ballSize[i]/float(INITIAL_BALL_SIZE))
             circle(ballPos[i].x, ballPos[i].y, ballSize[i])
