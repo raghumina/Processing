@@ -59,7 +59,7 @@ def UpdateBalls():
         ballPos[i] += ballVel[i]
         
         whichWall = offScreen(ballPos[i])
-        if whichWall > 1:
+        if whichWall > 0:
             ballSize[i] *= BALL_IMPACT_DECAY
             
             # Reflecting Off of Walls (No bugs here!)
@@ -88,12 +88,12 @@ def UpdateBalls():
 
 
 def offScreen(vector):
-    if vector.x < 0:
-        return 1
+    if vector.x <= 0:
+        return 1  # left
     elif vector.y > height:
-        return 2
+        return 2  # bottom
     elif vector.x > width:
-        return 3
-    elif vector.y < 0:
-        return 4
-    return 0    
+        return 3 # Right
+    elif vector.y <= 0:
+        return 4 # Top
+    return 0  
