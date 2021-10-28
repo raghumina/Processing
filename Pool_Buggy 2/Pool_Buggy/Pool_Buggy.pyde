@@ -12,6 +12,7 @@ ballColor = []
 INITIAL_BALL_SIZE = 60
 BALL_IMPACT_DECAY = 0.95
 BALL_SIZE_DECAY = -0.02
+backGround = color(0, 0, 50)
 
 def setup():
     
