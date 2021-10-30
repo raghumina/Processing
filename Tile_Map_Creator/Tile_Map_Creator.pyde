@@ -22,3 +22,32 @@ Extra Credit (2 points) - add a second "object" layer on top of the ground layer
 '''
 
 # Lets Start 
+
+
+screenWidth = 600
+screenHeight = 700
+bgColor = color(0)
+
+
+
+# HuD's variables 
+hudOffsetX = 300
+hudOffsetY = 200
+
+
+def setup():
+    global f 
+    background(bgColor)
+    size(screenHeight, screenWidth)
+    rectMode(CENTER)
+    stroke(10)
+    fill(255)
+    f = createFont("Arial", 30)
+    
+    
+def draw():
+    global f 
+    text("Welcome to Tile-Map-Creator",250, 300)
+    
+    
+    
