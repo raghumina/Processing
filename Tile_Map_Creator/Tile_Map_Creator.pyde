@@ -3,24 +3,9 @@
 # Raghu Mina
 
 
-'''
-Create a tile map creation tool.
 
-Submit: your Processing project folder with all code and assets a single .zip file.
+# Create a tile map creation tool.
 
-Grading Rubric
-
-4 point - clicking on the screen creates a tile on the grid
-1 points - keyboard keys (specify which ones in comments at the top) allow for switching between
- at least 3 different tiles
-4 points - the currently selected tile should be visible 
-(either shown in some UI element or following the mouse cursor (perhaps with transparency?))
-1 points - pressing a given key on the keyboard will save a screenshot
-Extra Credit (1 points) - have more than 5 different tiles
-Extra Credit (2 points) - add a second "object" layer on top of the ground layer with different tiles to place 
-(this is harder, so make sure everything else is done first before starting it)
-
-'''
 
 # Varaibles for tiles 
 shapeList = []
@@ -38,7 +23,8 @@ GRID_CELL_SIZE = 50  # Size of the cell
 # for background image size 
 y = 0 
 
-
+# Variable for saving the file data 
+saveFileName = "Level_Editor.txt"
 
 
 
@@ -46,29 +32,30 @@ def setup():
     global tile1Sprite, bg
     size(1200,750)
     background(255, 255, 255)
-    
-    bg = loadImage("BG.png")
-    
+    loadSaveData(loadStrings(saveFileName))
     
     tile1Sprite = loadImage("1.png")
-   # textSize(32)
+
     
 def draw():
-    global tile1Sprite, bg
+    global tile1Sprite, sqrPos, sqrColor 
+    cursor(HAND)  # For cursor shape 
     
-    
+    # Have to remove this error clear() not working 
+    # BUGGY CODE 
+    if key == "c" or key == "C":
+        sqrPos = []
+        sqrColor = []
+        clear()
     
     for i in range(len(shapeList)):
         for j in range(len(shapeList[i])):
             tempPos = PVector( i * gridGap.x + gridOffset.x, j * gridGap.y + gridOffset.y)
-            tint(255, 0, 0)
+
             image(tile1Sprite, tempPos.x, tempPos.y)
-     
             
     drawHuD()
    
-        
-
 def drawHuD():
     global sqrPos, sqrColor, bg
     fill(0)
@@ -146,13 +133,30 @@ def mousePressed():    #
     sqrColor.append(color(random(120, 155), random(120, 255), random(120, 255)))
     
     
-def keyPressed():
+def keyPressed():  # This key is for exit the processing canvas 
     if key == "e" or key == "E":
         exit()
     
-    if key == "q" or key == "Q":
+    if key == "q" or key == "Q":  # This key is for taking snap of the processing canvas
         saveFrame()
 
+    
+def loadSaveData(data):
+    
+    for line in data:
+        lineList = line.split(",")
+        sqrPos.append(PVector(float(lineList[0]), float(lineList[1])))
+        sqrColor.append(lineList[2])
+        
+def dispose():
+    saveData = []
+    for i in range(len(sqrPos)):
+        row  = str(sqrPos[i].x) + "," + str(sqrPos[i].y) + "," + str(sqrColor[i])
+        saveData.append(row)
+        
+    saveStrings("data/" + saveFileName, saveData)
+                      
+    
     
     
     

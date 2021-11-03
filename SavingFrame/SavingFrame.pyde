@@ -1,25 +1,16 @@
-  
-x = 0
+def setup(): 
+    size(200, 200)
+    global pg
+    pg = createGraphics(100, 100)
 
-def draw():
-    global x
+def draw(): 
     background(204)
-    if x < 100:
-        line(x, 0, x, 100)
-        x = x + 1
-    else:
-        noLoop()
-    # Saves each frame as screen-0001.tif, screen-0002.tif, etc.
-    saveFrame()
-x = 0
+    pg.beginDraw()
+    pg.stroke(0, 102, 153)
+    pg.line(0, 0, mouseX, mouseY)
+    pg.endDraw()
+    image(pg, 50, 50)
 
-def draw():
-    global x
-    background(204)
-    if x < 100:
-        line(x, 0, x, 100)
-        x = x + 1
-    else:
-        noLoop()
-    # Saves each frame as line-000001.png, line-000002.png, etc.
-    saveFrame("line-######.png")
+# Click to clear the PGraphics object
+def mousePressed(): 
+    pg.clear()
