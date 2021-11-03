@@ -20,10 +20,11 @@ def draw():  #
             sqrPos = []
             sqrColor = []
             
-    for pos in sqrPos:
-    
-        square(pos.x, pos.y, GRID_CELL_SIZE)
+    for i in range (len(sqrPos)):
+        fill(sqrColor[i])
+        square(sqrPos[i].x, sqrPos[i].y, GRID_CELL_SIZE)
         
 def mousePressed():    # 
     pos = PVector(mouseX, mouseY)
     sqrPos.append(pos)
+    sqrColor.append(color(random(120, 155), random(120, 255), random(120, 255)))
