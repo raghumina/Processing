@@ -21,99 +21,145 @@ Extra Credit (2 points) - add a second "object" layer on top of the ground layer
 (this is harder, so make sure everything else is done first before starting it)
 
 '''
-# Lets Start 
-# Game image 
-#img = loadImage("BG.png")
 
-screenWidth = 750
-screenHeight = 900
-bgColor = color(255)
-
-# Grid 
+# Varaibles for tiles 
 shapeList = []
-shapeList.append([28, 29, 30, 31])
-gridOffset = PVector(80, 60)
-gridGap = PVector(150, 70)
+shapeList.append([20, 30, 30, 40])
 
-# HuD's variables 
-hudOffsetX = 300
-hudOffsetY = 200
+gridOffset = PVector(1060, 50)
+gridGap = PVector(1, 55)
 
 
-# Button variables
+# Varaiables for grid 
+sqrPos = []
+sqrColor = []
+GRID_CELL_SIZE = 50  # Size of the cell
 
-buttonHeight = 20
-buttonWidth = 90
+# for background image size 
+y = 0 
 
-#button1PosX
-#button1PosY
+
+
+
 
 def setup():
-    global f 
-    global wallSprite
-    background(0)
-    size(screenHeight, screenWidth)
-    rectMode(CENTER)
-    stroke(10)
-    fill(0)
-    f = createFont("Arial", 50)
-  #  wallSprite = loadImage("Wall.png")
+    global tile1Sprite, bg
+    size(1200,750)
+    background(255, 255, 255)
     
-    # What is the sense of creating buttons when we can control all system or action by just pressing specific keys
-    # buttona are just for showoff 
+    bg = loadImage("BG.png")
+    
+    
+    tile1Sprite = loadImage("1.png")
+   # textSize(32)
     
 def draw():
-    fill(255)
-    #size(20)
-    rect(screenWidth/2, 300, 200, 50)
-    fill(0)
-    text("Welcome to Tile-Map-Creator",250, 300)
-
-    
-    # Button 1 
-    fill(255)
-    rect(80, 700, 150, 40, 6)
-    fill(0)
-    text("Button1", 60, 700)
-    
-    # Button 2
-    fill(25, 160, 220)
-    rect(250, 700, 150, 40, 6)
-    fill(0)
-    text("Button2", 60, 700)
-    
-    # Button 3
-    fill(255)
-    rect(400, 700, 120, 40, 6)
-    fill(0)
-    text("Button3", 60, 700)
-
-    # Button 4
-    fill(255, 155, 55)
-    rect(570, 700, 120, 40, 6)
-    fill(0)
-    text("Button4", 60, 700)
-    
-    
-    DrawHud()
+    global tile1Sprite, bg
     
     
     
-    
-    
-                                                                                                                  
-    for i in range(len(shapeList)):   
+    for i in range(len(shapeList)):
         for j in range(len(shapeList[i])):
             tempPos = PVector( i * gridGap.x + gridOffset.x, j * gridGap.y + gridOffset.y)
-            tint(255, 0 ,0)
-            text(str(shapeList[i][j]), tempPos.x, tempPos.y)
-    
-    
-def DrawHud():
-    fill(255)
-    rect(400, 300, 780, 700)
-    
-    stroke(10)
-    line(85, 100, 155, 105)
+            tint(255, 0, 0)
+            image(tile1Sprite, tempPos.x, tempPos.y)
+     
+            
+    drawHuD()
+   
+        
 
+def drawHuD():
+    global sqrPos, sqrColor, bg
+    fill(0)
+    rect(5,5, 1050, 650)
+
+ 
+    # Save button   # Assignes with button S
+    fill(120, 121, 200)
+    rect(20, 680, 170, 50, 5)
+    fill(0)
+    textSize(30)
+    text("Save", 50, 710)
+    
+    # ScreenShot Button   # Assigned with button Q
+    fill(90, 181, 250)
+    rect(200, 680, 170, 50, 5)
+    fill(0)
+    textSize(30)
+    text("ScreenShot", 200, 710)
+    
+    # Refresh  # Assigned with button W
+    fill(221, 121, 21)
+    rect(380, 680, 170, 50, 5)
+    fill(0)
+    textSize(30)
+    text("Refresh", 400, 710)
+    
+ 
+    # Exit Button   # Assignes with button "E"
+    fill(123, 255, 180)
+    rect(560, 680, 170, 50, 5)
+    fill(0)
+    textSize(30)
+    text("Exit", 570, 710)
+    
+    
+    # Left arrow key   # Assigned with button "L"
+    fill(100, 221, 200)
+    rect(900, 680, 50, 50, 5)
+    fill(0)
+    textSize(50)
+    text("L", 910, 720)
+
+    
+    # Up arrow key   # Assigned with button "U"
+    fill(100, 221, 200)
+    rect(960, 680, 50, 50, 5)
+    fill(0)
+    textSize(50)
+    text("U", 970, 720)
+    
+    # Down arrow key   # Assigned with button "D"
+    fill(100, 221, 200)
+    rect(1020, 680, 50, 50, 5)
+    fill(0)
+    textSize(50)
+    text("D", 1030, 720)
+    
+    # Right arrow key   # Assigned with button "r"
+    fill(100, 221, 200)
+    rect(1080, 680, 50, 50, 5)
+    fill(0)
+    textSize(50)
+    text("R", 1090, 720)
+    
+    for i in range (len(sqrPos)):
+        fill(sqrColor[i])
+        square(sqrPos[i].x, sqrPos[i].y, GRID_CELL_SIZE)
+        
+            
+def mousePressed():    #
+    pos = PVector(mouseX - (mouseX % GRID_CELL_SIZE), mouseY - (mouseY % GRID_CELL_SIZE))
+    
+    sqrPos.append(pos)
+    sqrColor.append(color(random(120, 155), random(120, 255), random(120, 255)))
+    
+    
+def keyPressed():
+    if key == "e" or key == "E":
+        exit()
+    
+    if key == "q" or key == "Q":
+        saveFrame()
+
+    
+    
+    
+
+    
+    
+    
+    
+    
     
