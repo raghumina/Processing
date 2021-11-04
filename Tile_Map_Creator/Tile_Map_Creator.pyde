@@ -2,13 +2,11 @@
 # TILE MAP CREATION TOOL 
 # Raghu Mina
 
-
-
 # Create a tile map creation tool.
 
 # Varaibles for tiles 
 shapeList = []
-shapeList.append([20])
+shapeList.append([18, 20])
 
 gridOffset = PVector(1050, 50)
 gridGap = PVector(1, 50)
@@ -18,6 +16,16 @@ gridGap = PVector(1, 50)
 sqrPos = []
 sqrColor = []
 GRID_CELL_SIZE = 50  # Size of the cell
+
+
+selRow = 3
+selCol = 10
+tileGrid = []
+
+
+
+
+
 
 # for background image size 
 y = 0 
@@ -30,10 +38,15 @@ numberOfRows = 21
 numberOfColoumns = 13
 
 
+# list variable
+myList = []
+sprites = []
+
 
 
 def setup():
-    global tile1Sprite, bg, numberOfRows, numberOfColoumns
+    global tile1Sprite, bg, numberOfRows, numberOfColoumns, sprites, nRow, nCol, GRID_CELL_SIZE
+    global myList, tileGrid
     size(1200,750)
     background(255, 255, 255)
   #  loadSaveData(loadStrings(saveFileName))
@@ -63,22 +76,29 @@ def setup():
     # Layer 2 images 
     # Total number of images = 10
     
-    layer2Sprite = loadImage("Crate.png")
-    layer2Sprite = loadImage("Crystal.png")
-    layer2Sprite = loadImage("IceBox.png")
-    layer2Sprite = loadImage("Igloo.png")
-    layer2Sprite = loadImage("Sign_1.png")
-    layer2Sprite = loadImage("Sign_2.png")
-    layer2Sprite = loadImage("SnowMan.png")
-    layer2Sprite = loadImage("Stone.png")
-    layer2Sprite = loadImage("Tree_1.png")
-    layer2Sprite = loadImage("Tree_2.png")
+    layer2Sprite1 = loadImage("Crate.png")
+    layer2Sprite2 = loadImage("Crystal.png")
+    layer2Sprite3 = loadImage("IceBox.png")
+    layer2Sprite4 = loadImage("Igloo.png")
+    layer2Sprite5 = loadImage("Sign_1.png")
+    layer2Sprite6 = loadImage("Sign_2.png")
+    layer2Sprite7 = loadImage("SnowMan.png")
+    layer2Sprite8 = loadImage("Stone.png")
+    layer2Sprite9 = loadImage("Tree_1.png")
+    layer2Sprite10 = loadImage("Tree_2.png")
+    
+   
+    sprites = [tile1Sprite, tile2Sprite, tile3Sprite,  tile4Sprite,  tile5Sprite, tile6Sprite, tile7Sprite, tile8Sprite, tile9Sprite,  tile10Sprite, tile11Sprite, tile12Sprite, tile13Sprite, tile14Sprite, tile15Sprite, tile16Sprite, tile17Sprite, tile18Sprite,layer2Sprite1, layer2Sprite2,layer2Sprite3,layer2Sprite4,layer2Sprite5,layer2Sprite6,layer2Sprite7,layer2Sprite8,layer2Sprite9,layer2Sprite10]
+     
+    tileGrid = TileGridList(selRow, selCol)
     
     myList = make2dList(numberOfRows, numberOfColoumns)
     
     
 def draw():
-    global tile1Sprite, sqrPos, sqrColor 
+    global tile1Sprite, sqrPos, sqrColor, tileGrid 
+    
+    ## will try to add new type mouse cursor 
     cursor(HAND)  # For cursor shape 
     
     # Have to remove this error clear() not working 
@@ -87,16 +107,18 @@ def draw():
         sqrPos = []
         sqrColor = []
         clear()
+        
+    line(50, 0, 50, 650)
     
     for i in range(len(shapeList)):
         for j in range(len(shapeList[i])):
             tempPos = PVector( i * gridGap.x + gridOffset.x, j * gridGap.y + gridOffset.y)
 
             image(tile1Sprite, tempPos.x, tempPos.y)
-            
+    
     drawHuD()
-    
-    
+
+    # For tile array in tile editor area
 def make2dList(numberOfRows, numberOfColoumns):
     newList = []
     for row in range(numberOfRows):
@@ -107,12 +129,40 @@ def make2dList(numberOfRows, numberOfColoumns):
             print("lol")
     print("done")
     return newList
+
+# FOR TILE LIST IN HUD 
+# How to fix that area??
+
+def TileGridList(selRow, selCol):
+    newList1 = []
+    index = 0
+    for row in range(selRow):
+        newList1.append([])
+        for col in range(selCol):
+            newList1[row].append(index) # 0, 1, 2, ...
+            index = index + 1
+
+            
+    print("fin")
+    
+    return newList1
+        
+
+
+
+
    
 def drawHuD():
-    global sqrPos, sqrColor, bg
+    global sqrPos, sqrColor, bg, sprites, tileGrid
     fill(0)
     rect(0,0, 1050, 650)
-
+    
+    stroke(255)
+    for i in range(numberOfRows):
+    
+        line(50 * (i + 1), 0, 50 * (i + 1), 650)
+    for j in range(numberOfColoumns):
+        line(0, 50 * (j + 1), 1050 , 50 * (j + 1))
  
     # Save button   # Assignes with button S
     fill(120, 121, 200)
@@ -173,18 +223,41 @@ def drawHuD():
     textSize(50)
     text("R", 1090, 720)
     
-    for i in range (len(sqrPos)):
-        fill(sqrColor[i])
-        square(sqrPos[i].x, sqrPos[i].y, GRID_CELL_SIZE)
-        
+    # for the editor area 
+    for i in range(numberOfRows):
+        for j in range(numberOfColoumns):
+            if myList[i][j] == 1:
+                x = i * 50
+                y = j * 50
+                image(sprites[0],x, y)
+  
+    # for the tile area        
+    for i in range(selRow):
+        x = 1050 + (i * 50)
+        for j in range(selCol): # 0,1,2
+            y = j * 50
+            tileIndex = tileGrid[i][j]
+            if tileIndex >= 28:
+                pass
+            image(sprites[tileIndex],x, y)        
             
-def mousePressed():    #
+     
+            
+            
+def mousePressed():
+    global myList    #
     if mouseX >= 1050 or mouseY >= 650:
         pass
     else:
         pos = PVector(mouseX - (mouseX % GRID_CELL_SIZE), mouseY - (mouseY % GRID_CELL_SIZE))
-        sqrPos.append(pos)
-        sqrColor.append(color(random(120, 155), random(120, 255), random(120, 255)))
+        
+        # sprites
+        x = mouseX/50
+        y = mouseY/50
+        myList[x][y] = 1
+        
+      #  sqrPos.append(pos)
+     #   sqrColor.append(color(random(120, 155), random(120, 255), random(120, 255)))
     
     
 def keyPressed():  # This key is for exit the processing canvas 
