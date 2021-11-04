@@ -32,10 +32,27 @@ def setup():
     global tile1Sprite, bg
     size(1200,750)
     background(255, 255, 255)
-    loadSaveData(loadStrings(saveFileName))
+  #  loadSaveData(loadStrings(saveFileName))
     
     tile1Sprite = loadImage("1.png")
-
+    tile2Sprite = loadImage("2.png")
+    tile3Sprite = loadImage("3.png")
+    tile4Sprite = loadImage("4.png")
+    tile5Sprite = loadImage("5.png")
+    tile6Sprite = loadImage("6.png")
+    tile7Sprite = loadImage("7.png")
+    tile8Sprite = loadImage("8.png")
+    tile9Sprite = loadImage("9.png")
+    tile10Sprite = loadImage("10.png")
+    tile11Sprite = loadImage("11.png")
+    tile12Sprite = loadImage("12.png")
+    tile13Sprite = loadImage("13.png")
+    tile14Sprite = loadImage("14.png")
+    tile15Sprite = loadImage("15.png")
+    tile16Sprite = loadImage("16.png")
+    tile17Sprite = loadImage("17.png")
+    tile18Sprite = loadImage("18.png")
+    
     
 def draw():
     global tile1Sprite, sqrPos, sqrColor 
@@ -139,15 +156,18 @@ def keyPressed():  # This key is for exit the processing canvas
     
     if key == "q" or key == "Q":  # This key is for taking snap of the processing canvas
         saveFrame()
+    
+
 
     
+    '''
 def loadSaveData(data):
     
     for line in data:
         lineList = line.split(",")
         sqrPos.append(PVector(float(lineList[0]), float(lineList[1])))
         sqrColor.append(lineList[2])
-        
+        '''
 def dispose():
     saveData = []
     for i in range(len(sqrPos)):
@@ -156,7 +176,7 @@ def dispose():
         
     saveStrings("data/" + saveFileName, saveData)
                       
-    
+# For new Page or Screen 
     
     
     
