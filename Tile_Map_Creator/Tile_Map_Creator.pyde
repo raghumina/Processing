@@ -6,7 +6,6 @@
 
 # Create a tile map creation tool.
 
-
 # Varaibles for tiles 
 shapeList = []
 shapeList.append([20, 30, 30, 40])
@@ -34,6 +33,8 @@ def setup():
     background(255, 255, 255)
   #  loadSaveData(loadStrings(saveFileName))
     
+    
+    # Layer 1 images 
     tile1Sprite = loadImage("1.png")
     tile2Sprite = loadImage("2.png")
     tile3Sprite = loadImage("3.png")
@@ -52,6 +53,21 @@ def setup():
     tile16Sprite = loadImage("16.png")
     tile17Sprite = loadImage("17.png")
     tile18Sprite = loadImage("18.png")
+    
+    # Layer 2 images 
+    
+    layer2Sprite = loadImage("Crate.png")
+    layer2Sprite = loadImage("Crystal.png")
+    layer2Sprite = loadImage("IceBox.png")
+    layer2Sprite = loadImage("Igloo.png")
+    layer2Sprite = loadImage("Sign_1.png")
+    layer2Sprite = loadImage("Sign_2.png")
+    layer2Sprite = loadImage("SnowMan.png")
+    layer2Sprite = loadImage("Stone.png")
+    layer2Sprite = loadImage("Tree_1.png")
+    layer2Sprite = loadImage("Tree_2.png")
+    
+    
     
     
 def draw():
