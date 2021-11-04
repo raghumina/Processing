@@ -23,7 +23,8 @@ selCol = 10
 tileGrid = []
 
 
-
+# VARIABLE FOR SELECTED TILE:
+selectedTile = 0
 
 
 
@@ -50,7 +51,7 @@ def setup():
     size(1200,750)
     background(255, 255, 255)
   #  loadSaveData(loadStrings(saveFileName))
-    
+      
     
     # Layer 1 images 
     # total number of images = 18
@@ -96,7 +97,7 @@ def setup():
     
     
 def draw():
-    global tile1Sprite, sqrPos, sqrColor, tileGrid 
+    global tile1Sprite, sqrPos, sqrColor, tileGrid, selectedTile
     
     ## will try to add new type mouse cursor 
     cursor(HAND)  # For cursor shape 
@@ -153,16 +154,23 @@ def TileGridList(selRow, selCol):
 
    
 def drawHuD():
-    global sqrPos, sqrColor, bg, sprites, tileGrid
+    global sqrPos, sqrColor, bg, sprites, tileGrid, selectedTile
+    fill(255)
+    rect(0,0, 1200, 750)
+    
     fill(0)
     rect(0,0, 1050, 650)
     
     stroke(255)
     for i in range(numberOfRows):
-    
         line(50 * (i + 1), 0, 50 * (i + 1), 650)
     for j in range(numberOfColoumns):
         line(0, 50 * (j + 1), 1050 , 50 * (j + 1))
+ 
+    fill(128)
+    textSize(20)
+    text("Tile: " + str(selectedTile), 1050+25, 600)
+
  
     # Save button   # Assignes with button S
     fill(120, 121, 200)
@@ -193,14 +201,14 @@ def drawHuD():
     textSize(30)
     text("Exit", 570, 710)
     
-    
+    '''
     # Left arrow key   # Assigned with button "L"
     fill(100, 221, 200)
     rect(900, 680, 50, 50, 5)
     fill(0)
     textSize(50)
     text("L", 910, 720)
-
+'''
     
     # Up arrow key   # Assigned with button "U"
     fill(100, 221, 200)
@@ -215,21 +223,23 @@ def drawHuD():
     fill(0)
     textSize(50)
     text("D", 1030, 720)
-    
+    '''
     # Right arrow key   # Assigned with button "r"
     fill(100, 221, 200)
     rect(1080, 680, 50, 50, 5)
     fill(0)
     textSize(50)
     text("R", 1090, 720)
+    '''
     
     # for the editor area 
     for i in range(numberOfRows):
         for j in range(numberOfColoumns):
-            if myList[i][j] == 1:
+            if myList[i][j] >= 1:
                 x = i * 50
                 y = j * 50
-                image(sprites[0],x, y)
+                index = myList[i][j]
+                image(sprites[index],x, y)
   
     # for the tile area        
     for i in range(selRow):
@@ -237,15 +247,15 @@ def drawHuD():
         for j in range(selCol): # 0,1,2
             y = j * 50
             tileIndex = tileGrid[i][j]
-            if tileIndex >= 28:
-                pass
-            image(sprites[tileIndex],x, y)        
+            if tileIndex < 28:
+                image(sprites[tileIndex],x, y)        
             
+   # selectedTile(mouseX, mouseY)
      
             
             
 def mousePressed():
-    global myList    #
+    global myList, selectedTile
     if mouseX >= 1050 or mouseY >= 650:
         pass
     else:
@@ -254,18 +264,29 @@ def mousePressed():
         # sprites
         x = mouseX/50
         y = mouseY/50
-        myList[x][y] = 1
+        myList[x][y] = selectedTile
         
       #  sqrPos.append(pos)
      #   sqrColor.append(color(random(120, 155), random(120, 255), random(120, 255)))
     
     
-def keyPressed():  # This key is for exit the processing canvas 
+def keyPressed():  # This key is for exit the processing canvas
+    global selectedTile
     if key == "e" or key == "E":
         exit()
     
     if key == "q" or key == "Q":  # This key is for taking snap of the processing canvas
         saveFrame()
+        
+    if key == "U" or key == "u":
+        selectedTile = selectedTile + 1
+        print(selectedTile)
+        
+    if key == "d" or key == "D":
+        selectedTile = selectedTile - 1
+        print(selectedTile)
+        
+    
     
     '''
 def loadSaveData(data):
