@@ -8,10 +8,10 @@
 
 # Varaibles for tiles 
 shapeList = []
-shapeList.append([20, 30, 30, 40])
+shapeList.append([20])
 
-gridOffset = PVector(1060, 50)
-gridGap = PVector(1, 55)
+gridOffset = PVector(1050, 50)
+gridGap = PVector(1, 50)
 
 
 # Varaiables for grid 
@@ -25,16 +25,22 @@ y = 0
 # Variable for saving the file data 
 saveFileName = "Level_Editor.txt"
 
+# 2d array variables 
+numberOfRows = 21
+numberOfColoumns = 13
+
+
 
 
 def setup():
-    global tile1Sprite, bg
+    global tile1Sprite, bg, numberOfRows, numberOfColoumns
     size(1200,750)
     background(255, 255, 255)
   #  loadSaveData(loadStrings(saveFileName))
     
     
     # Layer 1 images 
+    # total number of images = 18
     tile1Sprite = loadImage("1.png")
     tile2Sprite = loadImage("2.png")
     tile3Sprite = loadImage("3.png")
@@ -55,6 +61,7 @@ def setup():
     tile18Sprite = loadImage("18.png")
     
     # Layer 2 images 
+    # Total number of images = 10
     
     layer2Sprite = loadImage("Crate.png")
     layer2Sprite = loadImage("Crystal.png")
@@ -67,7 +74,7 @@ def setup():
     layer2Sprite = loadImage("Tree_1.png")
     layer2Sprite = loadImage("Tree_2.png")
     
-    
+    myList = make2dList(numberOfRows, numberOfColoumns)
     
     
 def draw():
@@ -88,11 +95,23 @@ def draw():
             image(tile1Sprite, tempPos.x, tempPos.y)
             
     drawHuD()
+    
+    
+def make2dList(numberOfRows, numberOfColoumns):
+    newList = []
+    for row in range(numberOfRows):
+        newList.append([])
+        print("yup")
+        for col in range(numberOfColoumns):
+            newList[row].append(0)
+            print("lol")
+    print("done")
+    return newList
    
 def drawHuD():
     global sqrPos, sqrColor, bg
     fill(0)
-    rect(5,5, 1050, 650)
+    rect(0,0, 1050, 650)
 
  
     # Save button   # Assignes with button S
@@ -160,10 +179,12 @@ def drawHuD():
         
             
 def mousePressed():    #
-    pos = PVector(mouseX - (mouseX % GRID_CELL_SIZE), mouseY - (mouseY % GRID_CELL_SIZE))
-    
-    sqrPos.append(pos)
-    sqrColor.append(color(random(120, 155), random(120, 255), random(120, 255)))
+    if mouseX >= 1050 or mouseY >= 650:
+        pass
+    else:
+        pos = PVector(mouseX - (mouseX % GRID_CELL_SIZE), mouseY - (mouseY % GRID_CELL_SIZE))
+        sqrPos.append(pos)
+        sqrColor.append(color(random(120, 155), random(120, 255), random(120, 255)))
     
     
 def keyPressed():  # This key is for exit the processing canvas 
@@ -172,9 +193,6 @@ def keyPressed():  # This key is for exit the processing canvas
     
     if key == "q" or key == "Q":  # This key is for taking snap of the processing canvas
         saveFrame()
-    
-
-
     
     '''
 def loadSaveData(data):
