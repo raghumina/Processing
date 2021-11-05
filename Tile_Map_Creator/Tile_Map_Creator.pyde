@@ -3,6 +3,33 @@
 # Raghu Mina
 
 # Create a tile map creation tool.
+# You can select, draw tiles in this editor 
+# there are total 28 tiles in this editor 
+# Tile assest source: itch.io "wintertileset" author: 
+
+
+
+# Contorls 
+# To select tiles user can use "U" or "u" to go up in tiles grid to select the tile that we want to draw on the editor
+# User can use "D" or "d" to go down in the tiles grid to select the tiles 
+# User can use mouse press in the tile editor area to draw the selected tile.
+# By default the tile count starts from 0 to draw the desired tile the user have to select tile first.
+# the tile count show on the number of tile we have selected from 1-28
+
+
+# buttons are not functional they are there only for visualization purpose to give command press the mentioned key's
+# To save the data press key "s" or "S"
+# To exit the canvas press "e", "E" 
+# to take screenshot of the canvas press "q", "Q"
+
+# "Refresh button dont work"
+
+
+# Mouse didn't work on the tilegrid area 
+# Mouse only works in the editor area 
+
+# the editor is 273 cell area 
+
 
 # Varaibles for tiles 
 shapeList = []
@@ -257,10 +284,9 @@ def dispose():
     for i in range(len(sqrPos)):
         row  = str(sqrPos[i].x) + "," + str(sqrPos[i].y) + "," + str(sqrColor[i])
         saveData.append(row)
-        
+    
     saveStrings("data/" + saveFileName, saveData)
-                      
-# For new Page or Screen 
+
     
     
     
