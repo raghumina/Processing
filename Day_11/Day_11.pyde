@@ -13,7 +13,10 @@ def setup():
     size(600, 700)
     background(0)
     noStroke()
-
+    
+    loadSaveData(loadStrings(saveFileName))
+    
+    
 def draw():  # 
     global sqrPos, sqrColor
     background(0)
@@ -34,20 +37,17 @@ def mousePressed():    #
     
     
 def loadSaveData(data):
-    
+    print("hello" + str(len(data)) + "line of data")
     for line in data:
         lineList = line.split(",")
-        sqrPos.append(PVector(lineList[0], lineList[1]))
+        sqrPos.append(PVector(float(lineList[0]), float(lineList[1])))
         sqrColor.append(lineList[2])
-    
-    
-    
-    
     
     # Saves the program data before closing it 
 def dispose():
+    print("hello")
     saveData = []
     for i in range(len(sqrPos)):
-        row = str(sqrPos[i].x) + "," + str(sqrPos[i].y "," + str(sqrColor[i])
+        row = str(sqrPos[i].x) + "," + str(sqrPos[i].y) + "," + str(sqrColor[i])
         saveData.append(row)
     saveStrings("data/" + savaFileName, saveData)
