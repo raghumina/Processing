@@ -31,12 +31,17 @@ score = 0
 
 def setup():
     ''' Create Canvas where all changes updates were made it is basically the game screen '''
-    global rocketSprite, spaceBackground, f 
+    global rocketSprite, spaceBackground, f, ps 
     size(1200, 900)
     f = createFont("Arial", 23)
     
+    # For Particle systetm 
+    sprite = loadImage("18.png")
+  #  p = Particle(circle(56, 46, 55))
+    position = PVector(500, 500)
     
     
+    ps = ParticleSystem(20, position)
     
     rocketSprite = loadImage("Rocket.png")
     spaceBackground = loadImage("SpaceBG.png")
@@ -45,8 +50,17 @@ def draw():
     ''' This function updates the screen with the help of other varialbes '''
     
     background(10, 120, 10)
-    global rocketSprite, spaceBackground
+    global rocketSprite, spaceBackground, ps
     drawHuD()
+    ps.update()
+    ps.draw()
+   # ps.updatePos()
+  #  ps.setEmitter(mouseX, mouseY)
+    fill(255)
+    textSize(16)
+    text("Frame rate: " + str(int(frameRate)), 10, 20)
+    # sprite = Particle(circle(56, 46, 55))
+  
 
 def drawHuD():
     ''' This function creates a HuD in the main screen where game is played 
@@ -56,15 +70,66 @@ def drawHuD():
     global rocketSprite, spaceBackground
     global f    # for text 
 
-
-
     textSize(20)
     text("Score: ", 5, 50)
 
     rect(80, 80, 1000, 750)
     image(spaceBackground, 80, 80, 1000, 750)
-    
-    
     image(rocketSprite, mouseX, mouseY)
+    
+    # test = Particle("image.png")
+    # Particle().__init__("image.png")
+
+class Particle(object):
+
+    def __init__(self, position):
+        
+        self.gravity = PVector(0, .001)
+        #self.position = position
+        self.position = PVector(position.x, position.y)
+        self.lifespan = 255
+        self.velocity = PVector(random(-2, 1.5), random(-2, 1.5))
+        #print(self.velocity)
+        self.size = random(30, 60)
+      #  print(self.size)
+        
+    def updatePos(self):
+        print(self.position)
+        print(self.velocity)
+        self.position.x = ( self.position.x) + (self.velocity.x)
+        self.position.y = ( self.position.y) + (self.velocity.y)
+        
+ 
+    def isDead(self):
+        return self.lifespan < 0
+
+    def update(self):
+        self.lifespan -= 1
+       # self.velocity.add(self.gravity)
+       # self.setTint(color(255, self.lifespan))
+        self.updatePos()
+       
+        
+    def draw(self):
+        fill(color(255, 255, self.lifespan))
+        circle(self.position.x, self.position.y, self.size)
+        
+        
+
+class ParticleSystem(object):
+
+    def __init__(self, n, position):
+
+        self.particles = [Particle(position) for _ in range(n)]
+        
+    def draw(self):
+        for p in self.particles:
+            p.draw()
+    
+        
+
+    def update(self):
+        for p in self.particles:
+            p.update()
     
     
