@@ -1,14 +1,17 @@
 
 add_library("sound")  # To play audio in the game
 
-
+# Game State Variable 
 MenuState = 0 # menu
 CountdownState = 1
 PlayState = 2 # gameplay
 GameOverState = 3  # Gameover message, and result 
 CurrentState = 0
 
+# Time variable
 countdown = 5
+StartTime = 0
+stoppedTime = []
 
 # Car Variable
 carSpeed = 2
@@ -40,7 +43,6 @@ def draw():
     elif CurrentState == 3:
         drawGameOverState()
     
-        
 def drawHUD():
     global backgroundImage
     ''' 
@@ -50,7 +52,6 @@ def drawHUD():
     rect(10, 10, 1480, 790)
     image(backgroundImage, 10, 10, 1480, 790)
 
-    
 def drawMenu():
     global audio1
     #audio1.play()
@@ -72,13 +73,11 @@ def drawMenu():
     fill(100, 255, 200)
     text("Today's date:" +str(month())+"-"+str(day())+"-"+str(year()),50,50)
         
-
 def button():
     '''
     All these button's are assigned with keys they will not work by clicking on them 
     to do that player have to press specific key's on keyboard
     '''
-    
     # Button 1 
     fill(255, 120, 100)
     rect(10, 810, 170, 50, 20)
@@ -139,50 +138,65 @@ def button():
     
 def drawCountdown():
   #  countdown = 5
-  
     text(countdown - int(second()),50,50)
-    
     
 def drawPlayState():
     global carSpeed, carX1, CurrentState
-    
     car = image(policeCar, carX1, 560)
-    
+    '''
+    offsetTime = millis() - StartTime 
+    millisString = str(offsetTime/1000) + ":" + str(offsetTime/100 - offsetTime / 1000 * 10) + ":" + nf(offsetTime % 100, 2)
+    textAlign(RIGHT)
+    text(millisString, width/2, height/ 2)
+    for time in stoppedTime:
+        time.drawStoppedTime()
+    '''    
     carAccleration = 4
     if keyPressed:
         if key=="A"or key=="a":
             carX1 += carSpeed
+            offsetTime = millis() - StartTime 
+            millisString = str(offsetTime/1000) + ":" + str(offsetTime/100 - offsetTime / 1000 * 10) + ":" + nf(offsetTime % 100, 2)
+            textAlign(RIGHT)
+            text(millisString, width/2, height/ 2)
+            for time in stoppedTime:
+                time.drawStoppedTime()
         else:
             if key == "G" or key == "g":    # A or a = accleration
                 carSpeed += carAccleration
                 carX1 += carSpeed
-    print(carX1)
-    
-
+                
+            
     if carX1 >= 1480:
         CurrentState = 3
     
-
 def  drawGameOverState():
-    fill(255, 200, 160)
+    m = millis()
+    noStroke()
+    fill(m % 255)
     textAlign(CENTER)
     textSize(74)
     text("Game OVER ",width/2,200)
     
-    fill(255, 200, 160)
+    fill(m % 200, 200, 100)
     textAlign(CENTER)
     textSize(74)
     text("Time Taken ",width/2,500)
     
-
 def keyPressed():
     global CurrentState
     if key == "r" or key == "R":
-      
         CurrentState = 2
         print(CurrentState)
         
-    
+class StoppedTime():
+    def __init__(self, tempPos, tempString):
+        self.pos = tempPos
+        self.string = tempString
+        
+    def drawStoppedTime(self):
+        textAlign(RIGHT)
+        text(self.string, self.pos.x, self.pos.y)
     
     
     
