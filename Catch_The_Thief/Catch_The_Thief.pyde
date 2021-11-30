@@ -2,10 +2,17 @@
 add_library("sound")  # To play audio in the game
 
 
-GameState = 0 # menue, title 
-PlayState = 1 # gameplay
-GameOver = 2 # Gameover message, and result 
+MenuState = 0 # menu
+CountdownState = 1
+PlayState = 2 # gameplay
+GameOverState = 3  # Gameover message, and result 
+CurrentState = 0
 
+countdown = 5
+
+# Car Variable
+carSpeed = 2
+carX1 = 0
 
 def setup():
     global backgroundImage, audio1, policeCar
@@ -22,9 +29,18 @@ def setup():
 def draw():
     global backgroundImage, audio1
     drawHUD()
-    drawMenu()
-    button()
+
+    if CurrentState == 0:
+        button()
+        drawMenu()
+    elif CurrentState == 1:
+        drawCountdown()
+    elif CurrentState == 2:
+        drawPlayState()
+    elif CurrentState == 3:
+        drawGameOverState()
     
+        
 def drawHUD():
     global backgroundImage
     ''' 
@@ -33,7 +49,7 @@ def drawHUD():
     fill(255)
     rect(10, 10, 1480, 790)
     image(backgroundImage, 10, 10, 1480, 790)
-    image(policeCar, mouseX, mouseY)
+
     
 def drawMenu():
     global audio1
@@ -65,66 +81,106 @@ def button():
     
     # Button 1 
     fill(255, 120, 100)
-    rect(10, 810, 170, 50)
+    rect(10, 810, 170, 50, 20)
     fill(0)
-    textSize(25)
+    textSize(20)
     stroke(204, 102, 120)
-    text("Start Game" , 15, 840)
+    text("Start Game: R" , 15, 840)
     
     # Button 2 
     fill(255, 120, 100)
-    rect(200, 810, 170, 50)
+    rect(200, 810, 170, 50, 20)
     fill(0)
-    textSize(25)
+    textSize(20)
     stroke(204, 102, 120)
-    text("Pause Game", 210, 840)
+    text("Pause Game: P", 210, 840)
     
     # Button 3
     fill(255, 120, 100)
-    rect(390, 810, 170, 50)
+    rect(390, 810, 170, 50, 20)
     fill(0)
-    textSize(25)
+    textSize(20)
     stroke(204, 102, 120)
-    text("Save Game", 400, 840)
+    text("Save Game: S", 400, 840)
     
     # Button 4
     fill(255, 120, 100)
-    rect(580, 810, 170, 50)
+    rect(580, 810, 170, 50, 20)
     fill(0)
-    textSize(25)
+    textSize(20)
     stroke(204, 102, 120)
-    text("Quit Game", 590, 840)
+    text("Quit Game Q", 590, 840)
     
     # Car Control 
     # Button 5 
     fill(100, 120, 100)
-    rect(820, 810, 190, 50)
+    rect(820, 810, 190, 50, 20)
     fill(0)
-    textSize(25)
+    textSize(20)
     stroke(204, 102, 120)
-    text("Start Car", 830, 840)
+    text("Start Car: A ", 830, 840)
     
     # Button 6
     fill(100, 120, 100)
-    rect(1020, 810, 190, 50)
+    rect(1020, 810, 190, 50, 20)
     fill(0)
-    textSize(25)
+    textSize(20)
     stroke(204, 102, 120)
-    text("Acclerate Car", 1030, 840)
+    text("Acclerate Car: SPACE", 1030, 840)
     
     # By default car starts in first gear 
     # Button 7
     fill(100, 120, 100)
-    rect(1220, 810, 190, 50)
+    rect(1220, 810, 190, 50, 20)
     fill(0)
-    textSize(25)
+    textSize(20)
     stroke(204, 102, 120)
     text(" Gear 1, 2, 3", 1230, 840)
     
+def drawCountdown():
+  #  countdown = 5
+  
+    text(countdown - int(second()),50,50)
     
+    
+def drawPlayState():
+    global carSpeed, carX1, CurrentState
+    
+    car = image(policeCar, carX1, 560)
+    
+    carAccleration = 4
+    if keyPressed:
+        if key=="A"or key=="a":
+            carX1 += carSpeed
+        else:
+            if key == "G" or key == "g":    # A or a = accleration
+                carSpeed += carAccleration
+                carX1 += carSpeed
+    print(carX1)
+    
+
+    if carX1 >= 1480:
+        CurrentState = 3
+    
+
+def  drawGameOverState():
+    fill(255, 200, 160)
+    textAlign(CENTER)
+    textSize(74)
+    text("Game OVER ",width/2,200)
+    
+    fill(255, 200, 160)
+    textAlign(CENTER)
+    textSize(74)
+    text("Time Taken ",width/2,500)
+    
+
 def keyPressed():
+    global CurrentState
     if key == "r" or key == "R":
-        pass
+      
+        CurrentState = 2
+        print(CurrentState)
         
     
     
