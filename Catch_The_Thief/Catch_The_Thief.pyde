@@ -141,7 +141,7 @@ def drawCountdown():
     text(countdown - int(second()),50,50)
     
 def drawPlayState():
-    global carSpeed, carX1, CurrentState
+    global carSpeed, carX1, CurrentState,offsetTime
     car = image(policeCar, carX1, 560)
     '''
     offsetTime = millis() - StartTime 
@@ -155,20 +155,26 @@ def drawPlayState():
     if keyPressed:
         if key=="A"or key=="a":
             carX1 += carSpeed
-            offsetTime = millis() - StartTime 
-            millisString = str(offsetTime/1000) + ":" + str(offsetTime/100 - offsetTime / 1000 * 10) + ":" + nf(offsetTime % 100, 2)
-            textAlign(RIGHT)
-            text(millisString, width/2, height/ 2)
-            for time in stoppedTime:
-                time.drawStoppedTime()
         else:
             if key == "G" or key == "g":    # A or a = accleration
                 carSpeed += carAccleration
                 carX1 += carSpeed
                 
-            
+    offsetTime = millis() - StartTime 
+    millisString = str(offsetTime/1000) + ":" + str(offsetTime/100 - offsetTime / 1000 * 10) + ":" + nf(offsetTime % 100, 2)
+    textSize(50)
+    textAlign(RIGHT)
+    textSize(24)
+    text(millisString, width/2, height/ 2)
+    for time in stoppedTime:
+        time.drawStoppedTime()
+                            
+    #  GAME OVER CONDITION 1 
     if carX1 >= 1480:
         CurrentState = 3
+        
+    # GAME OVER CONDITION 2 
+    
     
 def  drawGameOverState():
     m = millis()
@@ -184,9 +190,11 @@ def  drawGameOverState():
     text("Time Taken ",width/2,500)
     
 def keyPressed():
-    global CurrentState
+    global CurrentState, StartTime, countdown
+    
     if key == "r" or key == "R":
         CurrentState = 2
+        StartTime = millis()
         print(CurrentState)
         
 class StoppedTime():
