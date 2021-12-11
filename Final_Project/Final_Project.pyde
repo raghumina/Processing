@@ -9,14 +9,14 @@
 
 # CONTROLS ARE SIMPLE PLAYE CONTROLS THE SHIP WITH THE HELP OF MOUSE AND SHOOT BULLETS WITH MOUSE PRESS 
 
+# Audio Credit: (https://shifatkhan.itch.io/dodgeball2d)
 
 #Screen Variable
 ScreenHeight = 800
 ScreenWidth = 1200
 
-#score and Life variable
+#score and 
 score = 0
-Life = 10
 
 ballRadius = 40
 ballFallSpeedFactor = 1.3
@@ -33,6 +33,8 @@ ballsColor = [color(255,255, 120)]
 VEnemies = []
 HEnemies = [] 
 
+particleSystem = []
+
 # Game Variables 
 gamestate = 1       # 1 state  = menue, 2nd = play, 3rd = end 
 gamescore = 0
@@ -42,11 +44,6 @@ gametime = 0
 
 # BULLET varaible
 bullet = []
-bulletBurst = 4 # number of shots fired
-bulletRateOfFire = 120 # bullets per minute
-isFiring = False
-bulletBurstCounter = 0
-bulletTimer = 0.0
 bulletFiringStartTime = 0.0
 bulletSpeed = 3
 bulletWidth = 6
@@ -58,33 +55,36 @@ hEnemyNextTime = 0
 vEnemyTimer = 1000
 vEnemyNextTime = 0
 
+
+add_library("sound")
+
 from HEnemy import HEnemy
 from VEnemy import VEnemy
 from Particle import Particle
 from ParticleSystem import ParticleSystem
 def setup():
     global gamestate,  EnemyClass, ps
-
     background(0)
     size(ScreenWidth, ScreenHeight)
-    
     createHEnemy()
     createVEnemy()
     
-    position = PVector(500, 500)
-    ps = ParticleSystem(100, position)
+    audio1 = SoundFile(this,"bg.wav")
+    audio1.play()
 
 def draw():
-    global  ScreenHeight, HEnemies, VEnemies, enemy, ps
+    global  ScreenHeight, HEnemies, VEnemies, enemy, particleSystem
     background(5)
     drawGame()
     spaceShip()
     createHEnemy()
     createVEnemy()
     drawBullets()
-    ps.update()
-    ps.draw()
     
+    for ps in particleSystem:
+        ps.update()
+        ps.draw()
+
     for enemy in VEnemies:
         enemy.draw()
         enemy.move(ScreenHeight)
@@ -93,7 +93,6 @@ def draw():
         enemy.draw()
         enemy.move(ScreenHeight)
         
-    
 def spaceShip():
     global bullet
     
@@ -101,16 +100,14 @@ def spaceShip():
     squarePosY = mouseY
     
     if mousePressed: 
-        
-            print ("fire G")
-            bullet.append(PVector(squarePosX, squarePosY))
+        print ("fire G")
+        bullet.append(PVector(squarePosX, squarePosY))
     m = millis()
     noStroke()
     fill(m % 255, 255 ,25)
     square(squarePosX, squarePosY, 30)
     
-    
-      # Print the game score
+    # Print the game score
     textSize(40)
     text("Score: ",5, 50) 
     text(gamescore, 120, 50)
@@ -146,7 +143,9 @@ def drawGame():
     global ballsColor
     global ballsPosY
     global barPosX, barPosY
+    global HEnemies
     global gamescore, gamelevel, ballFallSpeedFactor, ballsFallSpeed, gamestate
+    global particleSystem
    # global b.x, b.y
     
     for i in range(len(ballsPosY)):
@@ -154,48 +153,46 @@ def drawGame():
         
         for b in bullet:
             # Collision check of bullet with enemy 
-            if (ballsPosX[i] > (b.x - ballRadius) and ballsPosX[i] < (b.x + ballRadius)) and \
-             (ballsPosY[i] > b.y - ballRadius and ballsPosY[i] < b.y + ballRadius):
+            if (b.x > (ballsPosX[i] - ballRadius) and b.x < (ballsPosX[i] + ballRadius)) and \
+             (b.y > ballsPosY[i] - ballRadius and b.y < ballsPosY[i] + ballRadius):
                 
                 # for score 
                 gamescore = gamescore + 1
+                position = PVector(b.x, b.y)
+                ps = ParticleSystem(20, position)
+                particleSystem.append(ps)
                 ballsPosY[i] = ballsStartingY
                 ballsPosX[i] = random(0, 1200)
 
-     
          # Ball falling of the screen 
         if ballsPosY[i] > (ScreenHeight + ballRadius):
-            # Apply -negative score
-            # randomizeBallPosition()
             ballsPosY[i] = ballsStartingY
             ballsPosX[i] = random(0, 1200)
-            # gamescore = gamescore - 1  # hight negative score so that stakes are high for the player :)
-    
-    for i in range(len(self.positionY)):
-        self.positionY = self.positionY + (self.speed * self.ballSF)
-        
-     for b1 in bullet:
-         if self.positionX > (b1.x - ballRadius) and self.positionX < (b1.x + ballRadius)) and \
-         self.positionY > b1.y - ballRadius and self.positionY < b1.y + ballRadius):
-            
+  
+    # Collision detection for Horizontal enemies with bullet
+    for hEnemy in HEnemies:
+        for b in bullet:
+            # Collision check of bullet with enemy 
+            if (b.x > (hEnemy.positionX - hEnemy.sizeWidth) and b.x < (hEnemy.positionX + hEnemy.sizeWidth)) and \
+             (b.y > hEnemy.positionY - hEnemy.sizeHeight and b.y < hEnemy.positionY + hEnemy.sizeHeight):
+                # for score 
+                gamescore = gamescore + 3
+                hEnemy.positionY = 900  # To keep collided enemy out of the scene
                 
-                    
-                        
-                            
-                                
-                                    
-                                        
-                                            
-                                                
-                                                    
-                                                            
+    # Collision detection for Vertical enemies with bullet 
+    for VEnemy in VEnemies:
+        for b in bullet:
+            if (b.x > ( VEnemy.positionX -  VEnemy.sizeWidth) and b.x < ( VEnemy.positionX +  VEnemy.sizeWidth)) and \
+             (b.y >  VEnemy.positionY -  VEnemy.sizeHeight and b.y <  VEnemy.positionY +  VEnemy.sizeHeight):
+                # for score 
+                gamescore = gamescore + 5
+                VEnemy.positionY = 10000
+                                             
     for i in range(len(ballsPosX)):
         fill(ballsColor[color(255, 255, 255)])
         circle(ballsPosX[i], ballsPosY[i], ballRadius)
     
-def SpaceShipControl():
-    pass
-    
+
     
     
     
