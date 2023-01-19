@@ -6,9 +6,6 @@
 # You can select, draw tiles in this editor 
 # there are total 28 tiles in this editor 
 # Tile assest source: itch.io "wintertileset" author: 
-
-
-
 # Contorls 
 # To select tiles user can use "U" or "u" to go up in tiles grid to select the tile that we want to draw on the editor
 # User can use "D" or "d" to go down in the tiles grid to select the tiles 

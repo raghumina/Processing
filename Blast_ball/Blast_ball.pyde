@@ -40,8 +40,7 @@ def setup():
   #  p = Particle(circle(56, 46, 55))
     position = PVector(500, 500)
     
-    
-    ps = ParticleSystem(20, position)
+    ps = ParticleSystem(200, position)
     
     rocketSprite = loadImage("Rocket.png")
     spaceBackground = loadImage("SpaceBG.png")
@@ -61,7 +60,6 @@ def draw():
     text("Frame rate: " + str(int(frameRate)), 10, 20)
     # sprite = Particle(circle(56, 46, 55))
   
-
 def drawHuD():
     ''' This function creates a HuD in the main screen where game is played 
         This screen have all the updates which are created or made in the game screen 
@@ -84,49 +82,39 @@ class Particle(object):
 
     def __init__(self, position):
         
-        self.gravity = PVector(0, .001)
+        self.gravity = PVector(1, 2)
         #self.position = position
         self.position = PVector(position.x, position.y)
         self.lifespan = 255
-        self.velocity = PVector(random(-2, 1.5), random(-2, 1.5))
+        self.velocity = PVector(random(-1, 1.5), random(-2, 0))
         #print(self.velocity)
-        self.size = random(30, 60)
+        self.size = random(20, 30)
       #  print(self.size)
         
     def updatePos(self):
-        print(self.position)
-        print(self.velocity)
         self.position.x = ( self.position.x) + (self.velocity.x)
         self.position.y = ( self.position.y) + (self.velocity.y)
         
- 
     def isDead(self):
         return self.lifespan < 0
 
     def update(self):
         self.lifespan -= 1
-       # self.velocity.add(self.gravity)
-       # self.setTint(color(255, self.lifespan))
+
         self.updatePos()
        
-        
     def draw(self):
-        fill(color(255, 255, self.lifespan))
+        fill(color(25, 255,255, self.lifespan))
         circle(self.position.x, self.position.y, self.size)
         
-        
-
 class ParticleSystem(object):
 
     def __init__(self, n, position):
-
         self.particles = [Particle(position) for _ in range(n)]
         
     def draw(self):
         for p in self.particles:
             p.draw()
-    
-        
 
     def update(self):
         for p in self.particles:
